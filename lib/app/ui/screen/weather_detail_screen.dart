@@ -331,19 +331,14 @@ class WeatherDetailScreen extends GetView<WeatherDetailController> {
             ),
           ),
           Positioned(
-            top: -100.sp,
+            top: -80.sp,
             left: 10.sp,
             child: (controller.data.value['weather']?.icon ?? '').isEmpty
                 ? const SizedBox.shrink()
                 : AppImageWidget.asset(
-                    width: 208.sp,
-                    height: 208.sp,
-                    path: controller.data['type'] == "Route"
-                        ? 'lib/app/res/image/png/${controller.data['weather']?.icon != null ? controller.listWeatherType.contains(controller.data['weather']?.icon) ? controller.data['weather']!.icon : "cloudy" : ''}.png'
-                        : controller.listWeatherType
-                                .contains(controller.data['weather'])
-                            ? controller.data['weather'].icon
-                            : 'lib/app/res/image/png/cloudy.png',
+                    width: Get.width / 2,
+                    height: Get.width / 2.5,
+                    path: controller.getIcon(),
                   ),
           ),
         ],

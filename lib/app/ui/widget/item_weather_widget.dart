@@ -161,9 +161,7 @@ class ItemWeatherWidget extends StatelessWidget {
                           : (hourlyDataWeather?.icon ?? '').isEmpty
                               ? const SizedBox.shrink()
                               : AppImageWidget.asset(
-                                  path: type == "Route"
-                                      ? 'lib/app/res/image/png/${hourlyDataWeather?.icon != null ? listWeatherType.contains(hourlyDataWeather!.icon) ? hourlyDataWeather!.icon : "cloudy" : ''}.png'
-                                      : hourlyDataWeather!.icon,
+                                  path: getIcon(),
                                 ),
                 ),
                 SizedBox(height: 3.0.sp),
@@ -195,5 +193,19 @@ class ItemWeatherWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String getIcon() {
+    String baseIcon = 'lib/app/res/image/png/';
+    DateTime time = DateTime.fromMillisecondsSinceEpoch(
+        hourlyDataWeather?.time ?? 1 * 1000);
+    String icon = (hourlyDataWeather?.icon ?? '').isEmpty
+        ? 'partly-cloudy-day'
+        : hourlyDataWeather?.icon ?? "";
+
+    int hour = time.hour;
+    bool isDaytime = hour >= 6 && hour < 18;
+
+    return '$baseIcon$icon${isDaytime ? '' : '_n'}.png';
   }
 }

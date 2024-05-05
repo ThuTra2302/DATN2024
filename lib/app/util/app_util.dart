@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:travel/app/common/app_log.dart';
 
 import '../../build_constants.dart';
 import '../common/logger/src/logger.dart';
@@ -138,6 +139,7 @@ Future<WeatherResponse?> getDataWeather(List<Map> listLatLngNode) async {
       ),
     );
     WeatherResponse weatherResponse = WeatherResponse.fromJson(response.data);
+    AppLog.debug(response.data);
     return weatherResponse;
   } catch (e) {
     return null;

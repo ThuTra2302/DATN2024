@@ -204,4 +204,14 @@ class WeatherDetailController extends GetxController {
     }
 
   }
+  String getIcon() {
+    String baseIcon = 'lib/app/res/image/png/';
+    DateTime time = DateTime.fromMillisecondsSinceEpoch(data['weather']?.time ?? 1*1000);
+    String icon = (data['weather']?.icon?? '').isEmpty ? 'partly-cloudy-day' : data['weather']?.icon?? "";
+
+    int hour = time.hour;
+    bool isDaytime = hour >= 6 && hour < 18;
+
+    return '$baseIcon$icon${isDaytime?'':'_n'}.png';
+  }
 }

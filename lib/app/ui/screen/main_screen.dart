@@ -164,230 +164,483 @@ class MainScreen extends GetView<MainController> {
     );
   }
 
-  Widget _buildWeatherInfo() {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            SizedBox(
-              width: 12.sp,
-            ),
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 2.sp,
-                    ),
-                    AppImageWidget.asset(
-                      path: AppImage.ic_location,
-                      width: 20.0.sp,
-                    ),
-                    SizedBox(width: 8.0.sp),
-                    SizedBox(
-                      width: Get.width * 0.35,
-                      child: Text(
-                        controller.dataLocation ?? '---',
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: AppColor.white,
-                          fontSize: 16.0.sp,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
+  Widget _buildWeatherInfo(BuildContext context) {
+    return SizedBox(
+      width: Get.width,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.sp),
+            padding: EdgeInsets.symmetric(vertical: 20.sp),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(36.sp),
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFF4A8AF4),
+                    Color(0xFF93E3F4),
                   ],
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
                 ),
-                SizedBox(
-                  height: 70.sp,
-                ),
-                Obx(
-                  () => SizedBox(
-                    width: Get.width / 2.3,
-                    child: Row(
-                      children: [
-                        AppTouchable3(
-                          onPressed: () {
-                            controller.chooseC.value = true;
-                            Get.find<MainController>()
-                                .onPressUnitTemp(UnitTypeTemp.c);
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF5B9FF4).withOpacity(0.3),
+                    blurRadius: 10,
+                    offset: const Offset(0, 15),
+                  )
+                ]),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 10.sp,
+                              ),
+                              Text(
+                                controller.dataWeather?.summary ?? "--",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 40.sp,
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 10.sp,
+                                ),
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Obx(() {
+                                    UnitTypeTemp u = Get.find<AppController>()
+                                        .currentUnitTypeTemp
+                                        .value;
+                                    return RichText(
+                                      text: TextSpan(
+                                        text: controller
+                                                    .dataWeather?.temperature ==
+                                                null
+                                            ? '--'
+                                            : '${controller.valueInC.value.toUnit(u)}',
+                                        style: TextStyle(
+                                          color: AppColor.white,
+                                          fontSize: 80.0.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: '°',
+                                            style: TextStyle(
+                                              fontSize: 70.0.sp,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: u.name.toUpperCase(),
+                                            style: TextStyle(fontSize: 72.0.sp),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                                ),
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Feel like: ",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14.0.sp,
+                                        ),
+                                      ),
+                                      Obx(
+                                        () => FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Text(
+                                            "${controller.feelLikeTemp} °${Get.find<AppController>().currentUnitTypeTemp.value.name.toUpperCase()}",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18.0.sp,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.sp,
+                                ),
+                                Obx(
+                                  () => SizedBox(
+                                    width: Get.width / 2.3,
+                                    child: Row(
+                                      children: [
+                                        AppTouchable3(
+                                          onPressed: () {
+                                            controller.chooseC.value = true;
+                                            Get.find<MainController>()
+                                                .onPressUnitTemp(
+                                                    UnitTypeTemp.c);
 
-                            controller.feelLikeTemp.value = (controller
-                                    .dataWeather?.apparentTemperature
-                                    .round() as int)
-                                .toUnit(Get.find<AppController>()
-                                    .currentUnitTypeTemp
-                                    .value);
-                          },
-                          child: Container(
-                            height: 42.sp,
-                            width: 42.sp,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14.sp),
-                                color: controller.chooseC.value
-                                    ? Colors.white.withOpacity(0.3)
-                                    : null),
-                            child: Text(
-                              'C°',
-                              style: TextStyle(
-                                color: controller.chooseC.value
-                                    ? Colors.white
-                                    : const Color(0xFFFCFBF6).withOpacity(0.6),
-                                fontSize: 24.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10.sp,
-                        ),
-                        AppTouchable3(
-                          onPressed: () {
-                            controller.chooseC.value = false;
-                            Get.find<MainController>()
-                                .onPressUnitTemp(UnitTypeTemp.f);
+                                            controller.feelLikeTemp
+                                                .value = (controller.dataWeather
+                                                    ?.apparentTemperature
+                                                    .round() as int)
+                                                .toUnit(
+                                                    Get.find<AppController>()
+                                                        .currentUnitTypeTemp
+                                                        .value);
+                                          },
+                                          child: Container(
+                                            height: 42.sp,
+                                            width: 42.sp,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        14.sp),
+                                                color: controller.chooseC.value
+                                                    ? Colors.white
+                                                        .withOpacity(0.3)
+                                                    : null),
+                                            child: Text(
+                                              'C°',
+                                              style: TextStyle(
+                                                color: controller.chooseC.value
+                                                    ? Colors.white
+                                                    : const Color(0xFFFCFBF6)
+                                                        .withOpacity(0.6),
+                                                fontSize: 24.sp,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10.sp,
+                                        ),
+                                        AppTouchable3(
+                                          onPressed: () {
+                                            controller.chooseC.value = false;
+                                            Get.find<MainController>()
+                                                .onPressUnitTemp(
+                                                    UnitTypeTemp.f);
 
-                            controller.feelLikeTemp.value = (controller
-                                    .dataWeather?.apparentTemperature
-                                    .round() as int)
-                                .toUnit(Get.find<AppController>()
-                                    .currentUnitTypeTemp
-                                    .value);
-                          },
-                          child: Container(
-                            height: 42.sp,
-                            width: 42.sp,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14.sp),
-                                color: !controller.chooseC.value
-                                    ? Colors.white.withOpacity(0.3)
-                                    : null),
-                            child: Text(
-                              'F°',
-                              style: TextStyle(
-                                color: !controller.chooseC.value
-                                    ? Colors.white
-                                    : const Color(0xFFFCFBF6).withOpacity(0.6),
-                                fontSize: 24.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-            Expanded(
-              child: AppImageWidget.asset(
-                path: (controller.dataWeather?.icon ?? '').isEmpty
-                    ? 'lib/app/res/image/png/partly-cloudy-day.png'
-                    : 'lib/app/res/image/png/${controller.dataWeather?.icon ?? ''}.png',
-                width: Get.width / 2,
-                height: Get.width / 2.5,
-              ),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            SizedBox(
-              width: 20.sp,
-            ),
-            Container(
-              constraints: BoxConstraints(
-                maxWidth: Get.width / 2,
-                minWidth: 1,
-              ),
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Obx(() {
-                      UnitTypeTemp u =
-                          Get.find<AppController>().currentUnitTypeTemp.value;
-                      return RichText(
-                        text: TextSpan(
-                          text: controller.dataWeather?.temperature == null
-                              ? '--'
-                              : '${controller.valueInC.value.toUnit(u)}',
-                          style: TextStyle(
-                            color: AppColor.white,
-                            fontSize: 80.0.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: '°',
-                              style: TextStyle(
-                                fontSize: 70.0.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            TextSpan(
-                              text: u.name.toUpperCase(),
-                              style: TextStyle(fontSize: 72.0.sp),
+                                            controller.feelLikeTemp
+                                                .value = (controller.dataWeather
+                                                    ?.apparentTemperature
+                                                    .round() as int)
+                                                .toUnit(
+                                                    Get.find<AppController>()
+                                                        .currentUnitTypeTemp
+                                                        .value);
+                                          },
+                                          child: Container(
+                                            height: 42.sp,
+                                            width: 42.sp,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        14.sp),
+                                                color: !controller.chooseC.value
+                                                    ? Colors.white
+                                                        .withOpacity(0.3)
+                                                    : null),
+                                            child: Text(
+                                              'F°',
+                                              style: TextStyle(
+                                                color: !controller.chooseC.value
+                                                    ? Colors.white
+                                                    : const Color(0xFFFCFBF6)
+                                                        .withOpacity(0.6),
+                                                fontSize: 24.sp,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                           ],
                         ),
-                      );
-                    }),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 60.sp,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                SizedBox(
-                  height: 12.sp,
-                ),
-                Text(
-                  "Feel like",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18.0.sp,
-                  ),
-                ),
-                SizedBox(
-                  height: 6.0.sp,
-                ),
-                Obx(
-                  () => FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      "${controller.feelLikeTemp} °${Get.find<AppController>().currentUnitTypeTemp.value.name.toUpperCase()}",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0.sp,
-                        fontWeight: FontWeight.w700,
                       ),
-                    ),
+                    ],
                   ),
+                ),
+                SizedBox(
+                  width: 20.sp,
                 ),
               ],
             ),
-          ],
-        ),
-      ],
+          ),
+          Positioned(
+            top: -80.sp,
+            left: 10.sp,
+            child: AppImageWidget.asset(
+              path: controller.getIcon(),
+              width: Get.width / 2,
+              height: Get.width / 2.5,
+            ),
+          ),
+        ],
+      ),
     );
   }
+
+  // Widget _buildWeatherInfo() {
+  //   return Column(
+  //     children: [
+  //       Row(
+  //         mainAxisAlignment: MainAxisAlignment.start,
+  //         crossAxisAlignment: CrossAxisAlignment.end,
+  //         children: [
+  //           SizedBox(
+  //             width: 12.sp,
+  //           ),
+  //           Column(
+  //             children: [
+  //               Row(
+  //                 mainAxisAlignment: MainAxisAlignment.start,
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: [
+  //                   SizedBox(
+  //                     width: 2.sp,
+  //                   ),
+  //                   AppImageWidget.asset(
+  //                     path: AppImage.ic_location,
+  //                     width: 20.0.sp,
+  //                   ),
+  //                   SizedBox(width: 8.0.sp),
+  //                   SizedBox(
+  //                     width: Get.width * 0.35,
+  //                     child: Text(
+  //                       controller.dataLocation ?? '---',
+  //                       maxLines: 3,
+  //                       overflow: TextOverflow.ellipsis,
+  //                       style: TextStyle(
+  //                         color: AppColor.white,
+  //                         fontSize: 16.0.sp,
+  //                         fontWeight: FontWeight.w700,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //               SizedBox(
+  //                 height: 70.sp,
+  //               ),
+  //               Obx(
+  //                 () => SizedBox(
+  //                   width: Get.width / 2.3,
+  //                   child: Row(
+  //                     children: [
+  //                       AppTouchable3(
+  //                         onPressed: () {
+  //                           controller.chooseC.value = true;
+  //                           Get.find<MainController>()
+  //                               .onPressUnitTemp(UnitTypeTemp.c);
+  //
+  //                           controller.feelLikeTemp.value = (controller
+  //                                   .dataWeather?.apparentTemperature
+  //                                   .round() as int)
+  //                               .toUnit(Get.find<AppController>()
+  //                                   .currentUnitTypeTemp
+  //                                   .value);
+  //                         },
+  //                         child: Container(
+  //                           height: 42.sp,
+  //                           width: 42.sp,
+  //                           alignment: Alignment.center,
+  //                           decoration: BoxDecoration(
+  //                               borderRadius: BorderRadius.circular(14.sp),
+  //                               color: controller.chooseC.value
+  //                                   ? Colors.white.withOpacity(0.3)
+  //                                   : null),
+  //                           child: Text(
+  //                             'C°',
+  //                             style: TextStyle(
+  //                               color: controller.chooseC.value
+  //                                   ? Colors.white
+  //                                   : const Color(0xFFFCFBF6).withOpacity(0.6),
+  //                               fontSize: 24.sp,
+  //                               fontWeight: FontWeight.w600,
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       SizedBox(
+  //                         width: 10.sp,
+  //                       ),
+  //                       AppTouchable3(
+  //                         onPressed: () {
+  //                           controller.chooseC.value = false;
+  //                           Get.find<MainController>()
+  //                               .onPressUnitTemp(UnitTypeTemp.f);
+  //
+  //                           controller.feelLikeTemp.value = (controller
+  //                                   .dataWeather?.apparentTemperature
+  //                                   .round() as int)
+  //                               .toUnit(Get.find<AppController>()
+  //                                   .currentUnitTypeTemp
+  //                                   .value);
+  //                         },
+  //                         child: Container(
+  //                           height: 42.sp,
+  //                           width: 42.sp,
+  //                           alignment: Alignment.center,
+  //                           decoration: BoxDecoration(
+  //                               borderRadius: BorderRadius.circular(14.sp),
+  //                               color: !controller.chooseC.value
+  //                                   ? Colors.white.withOpacity(0.3)
+  //                                   : null),
+  //                           child: Text(
+  //                             'F°',
+  //                             style: TextStyle(
+  //                               color: !controller.chooseC.value
+  //                                   ? Colors.white
+  //                                   : const Color(0xFFFCFBF6).withOpacity(0.6),
+  //                               fontSize: 24.sp,
+  //                               fontWeight: FontWeight.w600,
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       )
+  //                     ],
+  //                   ),
+  //                 ),
+  //               )
+  //             ],
+  //           ),
+  //           Expanded(
+  //             child: AppImageWidget.asset(
+  //               path: (controller.dataWeather?.icon ?? '').isEmpty
+  //                   ? 'lib/app/res/image/png/partly-cloudy-day.png'
+  //                   : 'lib/app/res/image/png/${controller.dataWeather?.icon ?? ''}.png',
+  //               width: Get.width / 2,
+  //               height: Get.width / 2.5,
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //       Row(
+  //         children: [
+  //           SizedBox(
+  //             width: 20.sp,
+  //           ),
+  //           Container(
+  //             constraints: BoxConstraints(
+  //               maxWidth: Get.width / 2,
+  //               minWidth: 1,
+  //             ),
+  //             child: FittedBox(
+  //               fit: BoxFit.scaleDown,
+  //               child: Column(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 children: [
+  //                   Obx(() {
+  //                     UnitTypeTemp u =
+  //                         Get.find<AppController>().currentUnitTypeTemp.value;
+  //                     return RichText(
+  //                       text: TextSpan(
+  //                         text: controller.dataWeather?.temperature == null
+  //                             ? '--'
+  //                             : '${controller.valueInC.value.toUnit(u)}',
+  //                         style: TextStyle(
+  //                           color: AppColor.white,
+  //                           fontSize: 80.0.sp,
+  //                           fontWeight: FontWeight.w500,
+  //                         ),
+  //                         children: <TextSpan>[
+  //                           TextSpan(
+  //                             text: '°',
+  //                             style: TextStyle(
+  //                               fontSize: 70.0.sp,
+  //                               fontWeight: FontWeight.w400,
+  //                             ),
+  //                           ),
+  //                           TextSpan(
+  //                             text: u.name.toUpperCase(),
+  //                             style: TextStyle(fontSize: 72.0.sp),
+  //                           ),
+  //                         ],
+  //                       ),
+  //                     );
+  //                   }),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //           SizedBox(
+  //             width: 60.sp,
+  //           ),
+  //           Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             mainAxisAlignment: MainAxisAlignment.end,
+  //             children: [
+  //               SizedBox(
+  //                 height: 12.sp,
+  //               ),
+  //               Text(
+  //                 "Feel like",
+  //                 style: TextStyle(
+  //                   color: Colors.white,
+  //                   fontWeight: FontWeight.w400,
+  //                   fontSize: 18.0.sp,
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 height: 6.0.sp,
+  //               ),
+  //               Obx(
+  //                 () => FittedBox(
+  //                   fit: BoxFit.scaleDown,
+  //                   child: Text(
+  //                     "${controller.feelLikeTemp} °${Get.find<AppController>().currentUnitTypeTemp.value.name.toUpperCase()}",
+  //                     style: TextStyle(
+  //                       color: Colors.white,
+  //                       fontSize: 18.0.sp,
+  //                       fontWeight: FontWeight.w700,
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ],
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget _buildButton(
     String title,
@@ -513,131 +766,6 @@ class MainScreen extends GetView<MainController> {
     );
   }
 
-  Widget _buildButtonBig(
-    String title,
-    String pathImage,
-    Color color,
-    Function() onPress,
-  ) {
-    return AppTouchable3(
-      onPressed: onPress,
-      height: Get.width / 2.3,
-      margin: EdgeInsets.symmetric(horizontal: 12.0.sp),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(40.sp),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x4C000000),
-            blurRadius: 20,
-            offset: Offset(0, 4),
-            spreadRadius: 0,
-          )
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(width: 24.0.sp),
-          Padding(
-            padding: EdgeInsets.only(
-              top: 16.0.sp,
-            ),
-            child: Text(
-              title,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 28.sp,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-          SizedBox(width: 24.0.sp),
-          Expanded(
-            child: Stack(
-              alignment: Alignment.bottomRight,
-              children: [
-                AppImageWidget.asset(
-                  path: AppImage.bgButton,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    right: 12.0.sp,
-                    bottom: 8.0.sp,
-                  ),
-                  child: AppImageWidget.asset(
-                    path: pathImage,
-                    width: 85.sp,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildButtonSmall(
-    String title,
-    String pathImage,
-    Color color,
-    Function() onPress,
-  ) {
-    return AppTouchable3(
-      onPressed: onPress,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(26.sp),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x4C000000),
-            blurRadius: 20,
-            offset: Offset(0, 4),
-            spreadRadius: 0,
-          )
-        ],
-      ),
-      child: Stack(
-        children: [
-          Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              AppImageWidget.asset(
-                path: AppImage.bgButton,
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  right: 12.0.sp,
-                  bottom: 8.0.sp,
-                ),
-                child: AppImageWidget.asset(
-                  path: pathImage,
-                  width: 60.sp,
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              left: 12.0.sp,
-              top: 8.0.sp,
-            ),
-            child: Text(
-              title,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-
   @override
   Widget build(BuildContext context) {
     controller.context = context;
@@ -747,12 +875,15 @@ class MainScreen extends GetView<MainController> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
+                          SizedBox(
+                            height: 100.sp,
+                          ),
                           Obx(
                             () => AnimatedSwitcher(
                               duration: const Duration(milliseconds: 100),
                               child: controller.isLoadingWeather.value
                                   ? _buildWeatherInfoLoading()
-                                  : _buildWeatherInfo(),
+                                  : _buildWeatherInfo(context),
                             ),
                           ),
                           SizedBox(height: 16.sp),

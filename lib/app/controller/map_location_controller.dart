@@ -14,7 +14,6 @@ import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:intl/intl.dart';
 
-
 import '../data/model/weather_meteo_response.dart';
 import '../data/model/weather_response.dart';
 import '../res/image/app_image.dart';
@@ -349,7 +348,7 @@ class MapLocationController extends GetxController {
   }
 
   onPressMap1(LatLng latLng) {
-    if(Get.find<AppController>().isPremium.value) {
+    if (Get.find<AppController>().isPremium.value) {
       onPressMap(latLng);
     } else {
       Get.to(const SubScreen());

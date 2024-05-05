@@ -30,6 +30,9 @@ class SplashController extends GetxController with ConnectionMixin {
   @override
   void onReady() async {
     super.onReady();
+
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen((_updateConnectionStatus));
     FlutterNativeSplash.remove();
     // get version app
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -57,15 +60,10 @@ class SplashController extends GetxController with ConnectionMixin {
       ),
     );
 
-    await Get.find<AppController>().getIAPProductDetails();
-
-    _initNotificationAlarm8();
-    _initNotificationAlarm12();
-    _initNotificationAlarm18();
-
     await initConnectivity();
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen((_updateConnectionStatus));
+
+
+
   }
 
   @override

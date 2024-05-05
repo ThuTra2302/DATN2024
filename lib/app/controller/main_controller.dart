@@ -11,7 +11,6 @@ import 'package:google_maps_webservice/geocoding.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travel/app/extension/int_temp.dart';
 
-
 import '../data/model/weather_response.dart';
 import '../route/app_route.dart';
 import '../ui/screen/sub_screen.dart';
@@ -113,8 +112,7 @@ class MainController extends GetxController {
       },
     );
 
-    final
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     cntWeatherForTrip.value = prefs.getInt("cnt_press_weather_your_trip") ?? 1;
 
     valueInC.value = (dataWeather?.temperature ?? 0).round();
@@ -337,5 +335,15 @@ class MainController extends GetxController {
         .buffer
         .asUint8List();
   }
-  
+  String getIcon() {
+    String baseIcon = 'lib/app/res/image/png/';
+    DateTime time = DateTime.fromMillisecondsSinceEpoch(dataWeather?.time ?? 1*1000);
+    String icon = (dataWeather?.icon ?? '').isEmpty ? 'partly-cloudy-day' : dataWeather?.icon ?? "";
+
+    int hour = time.hour;
+    bool isDaytime = hour >= 6 && hour < 18;
+
+    return '$baseIcon$icon${isDaytime?'':'_n'}.png';
+  }
+
 }
