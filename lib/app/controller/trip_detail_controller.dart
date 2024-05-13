@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/geocoding.dart';
+import 'package:travel/app/common/app_log.dart';
 
 import '../ui/screen/sub_screen.dart';
 import '../util/app_constant.dart';
@@ -100,5 +101,19 @@ class TripDetailController extends GetxController {
 
   onPressVip() {
     Get.to(() => const SubScreen());
+  }
+  String getIcon(Map e) {
+    String baseIcon = 'lib/app/res/image/png/';
+    DateTime time =
+    DateTime.fromMicrosecondsSinceEpoch(e['dateTime'] * 1000);
+    AppLog.debug("${time.hour}:  ${time.minute}  : ${time.day}: ${time.month} : ${time.year} ");
+    String icon = (e['weather']?.icon ?? '').isEmpty
+        ? 'partly-cloudy-day'
+        : e['weather']?.icon ?? "";
+
+    int hour = time.hour;
+    bool isDaytime = hour >= 6 && hour < 18;
+
+    return '$baseIcon$icon${isDaytime ? '' : '_n'}.png';
   }
 }

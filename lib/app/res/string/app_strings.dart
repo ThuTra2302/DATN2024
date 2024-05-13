@@ -9,7 +9,7 @@ class AppStrings extends Translations {
 
   @override
   Map<String, Map<String, String>> get keys => {
-        localeCodeVi: viStrings,
+        // localeCodeVi: viStrings,
         localeCodeEn: enStrings,
       };
 

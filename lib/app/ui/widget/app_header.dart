@@ -72,6 +72,7 @@ class AppHeader extends StatelessWidget {
                         ),
                       ),
                     ),
+                SizedBox(width: 10.sp,),
                 Expanded(
                   child: middleWidget ??
                       Text(

@@ -127,4 +127,14 @@ class DatabaseService {
 
     return HistoryTrip.fromMap(map[0]);
   }
+  Future<int> deleteHistoryTrip(HistoryTrip historyTrip) async {
+    final db = await _databaseService.database;
+
+    return await db.delete(
+      _historyTripTable,
+      where: 'addressFrom = ? AND addressTo = ?',
+      whereArgs: [historyTrip.addressFrom, historyTrip.addressTo],
+    );
+  }
+
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:travel/app/res/image/app_image.dart';
 import 'package:travel/app/ui/widget/app_image_widget.dart';
 
 import '../../controller/app_controller.dart';
@@ -9,6 +10,7 @@ import '../../res/string/app_strings.dart';
 import '../theme/app_color.dart';
 import '../widget/app_container.dart';
 import '../widget/app_header.dart';
+import '../widget/app_touchable.dart';
 import 'favorite_screen.dart';
 import 'history_screen.dart';
 
@@ -23,119 +25,98 @@ class PlanedTripScreen extends GetView<PlanedTripController> {
       length: 2,
       child: AppContainer(
           backgroundColor: AppColor.grayFF9,
-          child: Column(
+          child: Stack(
             children: [
-              AppHeader(
-                title: StringConstants.yourPlanedTrip.tr,
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.sp),
-                height: 72.sp,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20.sp),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 4,
+              Positioned.fill(
+                  child: AppImageWidget.asset(
+                path: AppImage.bg,
+                fit: BoxFit.fitWidth,
+              )),
+              Column(
+                children: [
+                  AppHeader(
+                    middleWidget: Text(
+                      StringConstants.yourPlanedTrip.tr,
+                      maxLines: 2,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 20.0.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.white,
+                      ),
                     ),
-                  ],
-                ),
-                child: Stack(
-                  children: [
-                    AnimatedBuilder(
-                      animation: controller.animation,
-                      builder: (context, child) {
-                        return Transform.translate(
-                          offset: Offset(controller.animation.value * 96.sp, 0),
-                          // Thay đổi vị trí theo giá trị animation
-                          child: AnimatedBuilder(
-                            animation: controller.animation,
-                            builder: (context, child) {
-                              return Transform.translate(
-                                offset: Offset(
-                                    controller.animation.value * 90.sp, 0),
-                                // Thay đổi vị trí theo giá trị animation
-                                child: Container(
-                                  width: Get.width / 2.12,
-                                  height: 72.sp,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20.sp),
-                                    color: AppColor.blueCF6,
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                    Obx(
-                      () => SizedBox(
-                        height: 72.sp,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children:
-                              controller.tabs.asMap().entries.map((entry) {
-                            final index = entry.key;
-                            final tab = entry.value;
-                            final isSelected =
-                                index == controller.selectedIndex.value;
-                            return GestureDetector(
-                              onTap: () {
-                                controller.isRightToLeft.value = true;
-                                controller.setTab(index);
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.all(16.sp),
-                                child: Row(
-                                  children: [
-                                    AppImageWidget.asset(
-                                      path: tab.icon,
-                                      color: isSelected ? Colors.white : null,
-                                    ),
-                                    SizedBox(
-                                      width: 5.sp,
-                                    ),
-                                    Text(
-                                      tab.label,
-                                      style: TextStyle(
-                                          color: isSelected
-                                              ? Colors.white
-                                              : AppColor.grayE93,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18.sp),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }).toList(),
+                    leftWidget: AppTouchable(
+                      width: 40.0.sp,
+                      height: 40.0.sp,
+                      padding: EdgeInsets.all(2.0.sp),
+                      onPressed: Get.back,
+                      borderRadius: BorderRadius.circular(22.0.sp),
+                      child: Container(
+                        width: 45.sp,
+                        height: 45.sp,
+                        padding: EdgeInsets.all(6.sp),
+                        child: AppImageWidget.asset(
+                          path: AppImage.ic_back,
+                          height: 24.sp,
+                          color: AppColor.white,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: PageView(
-                  controller: controller.pageController,
-                  onPageChanged: (index) {
-                    if (controller.isRightToLeft.value) {
-                      controller.isRightToLeft.value = false;
-                      return;
-                    }
-                    if (Get.find<AppController>().isPremium.value) {
-                      controller.setTab(index);
-                    } else {
-                      controller.setTab(index);
-                    }
-                  },
-                  children: const [
-                    FavoriteScreen(),
-                    HistoryScreen(),
-                  ],
-                ),
+                  ),
+                  Container(
+                    height: 72.sp,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(40.sp)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 4,
+                        ),
+                      ],
+                    ),
+                    child: TabBar(
+                      indicatorPadding: EdgeInsets.symmetric(horizontal: 20.sp),
+                      tabs: [
+                        Tab(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const <Widget>[
+                              Icon(
+                                Icons.favorite_border,
+                                color: Color(0xFFFF2D55),
+                              ),
+                              SizedBox(width: 8),
+                              Text('Favorites'),
+                            ],
+                          ),
+                        ),
+                        Tab(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const <Widget>[
+                              Icon(
+                                Icons.history,
+                                color: Color(0xFF30B0C7),
+                              ),
+                              SizedBox(width: 8),
+                              Text('History'),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Expanded(
+                    child: TabBarView(
+                      children: [
+                        FavoriteScreen(),
+                        HistoryScreen(),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ],
           )),

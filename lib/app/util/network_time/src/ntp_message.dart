@@ -269,7 +269,7 @@ class _NTPMessage {
     final double utc = timestamp - timeToUtc;
     final double ms = utc * 1000.0;
 
-    return DateTime.fromMillisecondsSinceEpoch(ms.toInt()).toString();
+    return DateTime.fromMicrosecondsSinceEpoch(ms.toInt()).toString();
   }
 
   String referenceIdentifierToString(List<int> ref, int stratum, int version) {

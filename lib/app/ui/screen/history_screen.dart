@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
-
 import 'package:travel/app/ui/theme/app_color.dart';
+import 'package:travel/app/ui/widget/custom_slidable_action.dart' as csa;
 
 import '../../controller/history_controller.dart';
 import '../../res/image/app_image.dart';
-import '../../util/disable_glow_behavior.dart';
 import '../widget/app_container.dart';
 import '../widget/app_image_widget.dart';
+import '../widget/app_touchable2.dart';
 import '../widget/item_list.dart';
 
 class HistoryScreen extends GetView<HistoryController> {
@@ -20,15 +21,7 @@ class HistoryScreen extends GetView<HistoryController> {
 
     return AppContainer(
       showBanner: false,
-      backgroundColor: AppColor.grayFF9,
-      bottomNavigationBar: Obx(() => controller.list.length < 4
-          ? AppImageWidget.asset(
-              path: AppImage.icLessThan4,
-              width: Get.width,
-            )
-          : SizedBox(
-              height: 0.sp,
-            )),
+      backgroundColor: AppColor.white,
       child: Column(
         children: [
           Expanded(
@@ -51,72 +44,74 @@ class HistoryScreen extends GetView<HistoryController> {
                                   fontSize: 15,
                                   color: Color(0xFF8E8E93),
                                 ),
-                              )
+                              ),
+                              SizedBox(height: 20.0.sp),
+                              AppTouchable2(
+                                  onPressed:
+                                  controller.onPressWeatherForYourTrip,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 100.sp, vertical: 12.sp),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50.sp),
+                                    gradient: const LinearGradient(
+                                      colors: [
+                                        Color(0xFF437AFF),
+                                        Color(0xFF67A4FE)
+                                      ],
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    "Add now",
+                                    style: TextStyle(
+                                      color: AppColor.white,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  )),
                             ],
                           )
-                        : ScrollConfiguration(
-                            behavior: DisableGlowBehavior(),
-                            child: SingleChildScrollView(
-                              child: Obx(
-                                () => SizedBox(
-                                  height: controller.list.length < 4
-                                      ? 440.sp
-                                      : 587.sp,
-                                  child: ListView.builder(
-                                    padding: EdgeInsets.only(
-                                      top: 12.0.sp,
+                        : Obx(
+                            () => SlidableAutoCloseBehavior(
+                              child: ListView.builder(
+                                padding: EdgeInsets.zero,
+                                itemCount: controller.list.length,
+                                itemBuilder: (context, index) {
+                                  return Slidable(
+                                    key: ValueKey(controller.list[index]),
+                                    endActionPane: ActionPane(
+                                      motion: const ScrollMotion(),
+                                      extentRatio: 0.15,
+                                      children: [
+                                        csa.SlidableAction(
+                                          onPressed: (context) {
+                                            controller.onPressDelete(
+                                                controller.list.value[index]);
+                                          },
+                                          // foregroundColor: Colors.red,
+                                          backgroundColor: AppColor.red,
+                                          icon: AppImage.icDelete,
+                                        ),
+                                      ],
                                     ),
-                                    itemCount: controller.list.length,
-                                    itemBuilder: (context, index) {
-                                      controller.cntAds++;
-                                      if (index == 2 ||
-                                          index == 5 ||
-                                          index == 8) {
-                                        return Column(
-                                          children: [
-                                            
-                                            ItemList(
-                                              onPressed: () =>
-                                                  controller.onPressItem(index),
-                                              addressFrom: controller
-                                                  .list[index]
-                                                  .addressFrom ??
-                                                  "",
-                                              addressTo: controller
-                                                  .list[index].addressTo ??
-                                                  "",
-                                            )
-                                          ],
-                                        );
-                                      }
-                                      return ItemList(
-                                        onPressed: () =>
-                                            controller.onPressItem(index),
-                                        addressFrom: controller
-                                                .list[index].addressFrom ??
-                                            "",
-                                        addressTo:
-                                            controller.list[index].addressTo ??
-                                                "",
-                                      );
-                                    },
-                                  ),
-                                ),
+                                    child: ItemList(
+                                      onPressed: () =>
+                                          controller.onPressItem(index),
+                                      addressFrom:
+                                          controller.list[index].addressFrom ??
+                                              "",
+                                      addressTo:
+                                          controller.list[index].addressTo ??
+                                              "",
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                           ),
                   ),
           ),
-
-          // Obx(
-          //   () => Get.find<AppController>().isPremium.value
-          //       ? const SizedBox.shrink()
-          //       : NativeAdsWidget(
-          //           factoryId: NativeFactoryId.appNativeAdFactorySmall,
-          //           isPremium: Get.find<AppController>().isPremium.value,
-          //           height: 120.0.sp,
-          //         ),
-          // ),
         ],
       ),
     );

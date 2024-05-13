@@ -1,5 +1,6 @@
 class HistoryTrip {
-  String? addressFrom, addressTo;
+  String? addressFrom,
+      addressTo;
 
   /// 0 - false : 1 - true
   int? isFavorite;

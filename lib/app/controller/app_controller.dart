@@ -21,7 +21,7 @@ onSelectNotification(s1) async {}
 enum UnitTypeTemp { c, f, k }
 
 class AppController extends SuperController {
-  Locale currentLocale = AppConstant.availableLocales[1];
+  Locale currentLocale = AppConstant.availableLocales[0];
   List<UnitTypeTemp> listUnitTypeTemp = [
     UnitTypeTemp.c,
     UnitTypeTemp.k,

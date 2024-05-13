@@ -24,13 +24,6 @@ class AppImage {
 
   static const String ic_setting = '${_internalImagePathSvg}ic_setting.svg';
   static const String ic_rate = '${_internalImagePathSvg}ic_star.svg';
-  static const String ic_privacy = '${_internalImagePathSvg}ic_privacy.svg';
-  static const String ic_term =
-      '${_internalImagePathSvg}ic_termOfCondition.svg';
-  static const String ic_contact_us = '${_internalImagePathSvg}ic_contact.svg';
-
-  static const String ic_share_app = '${_internalImagePathSvg}ic_share_app.svg';
-  static const String ic_language = '${_internalImagePathSvg}ic_language.svg';
   static const String notSelectedStar =
       '${_internalImagePathSvg}ic_not_selected_star.svg';
   static const String selectedStar =
@@ -67,14 +60,13 @@ class AppImage {
   static const String iv_visibility =
       '${_internalImagePathSvg}ic_visibility.svg';
   static const String ic_wind_gust = '${_internalImagePathSvg}ic_wind_gust.svg';
+  static const String ic_barometer = '${_internalImagePathSvg}ic_barometer.svg';
 
   static const String icTo = '${_internalImagePathSvg}ic_to.svg';
   static const String icFrom = '${_internalImagePathSvg}ic_from.svg';
   static const String icHistory = '${_internalImagePathSvg}ic_history.svg';
   static const String icLock = '${_internalImagePathSvg}ic_lock.svg';
   static const String icWarning = '${_internalImagePathSvg}ic_warning.svg';
-  static const String icThermometer =
-      '${_internalImagePathSvg}ic_thermometer.svg';
 
   static const String icPermissionLocation =
       '${_internalImagePathSvg}permission_location.svg';
@@ -99,6 +91,7 @@ class AppImage {
 
   static const String icArrow = '${_internalImagePathSvg}ic_arrow.svg';
   static const String icMore = '${_internalImagePathSvg}ic_more.svg';
+  static const String icDelete = '${_internalImagePathSvg}ic_delete.svg';
 
   ///png
   static const String bg_main1 = '${_internalImagePathPng}bg_main1.png';
@@ -108,8 +101,6 @@ class AppImage {
   static const String ic_marker_node =
       '${_internalImagePathPng}ic_marker_node.png';
   static const String ic_pick = '${_internalImagePathPng}ic_pick.png';
-
-  static const String ic_barometer = '${_internalImagePathPng}ic_barometer.png';
 
   static const String botAvatar = '${_internalImagePathPng}bot_avatar.png';
 
@@ -257,6 +248,16 @@ class AppImage {
   static const String bgButton = '${_internalImagePathPng}bg_button.png';
 
   static const String bgSub = '${_internalImagePathPng}bg_sub.png';
+  static const String bg = '${_internalImagePathPng}bg.png';
+
+  static const String ic_privacy = '${_internalImagePathPng}ic_privacy.png';
+  static const String icThermometer =
+      '${_internalImagePathPng}ic_thermometer.png';
+  static const String ic_term = '${_internalImagePathPng}ic_term.png';
+  static const String ic_contact_us = '${_internalImagePathPng}ic_contact.png';
+
+  static const String ic_share_app = '${_internalImagePathPng}ic_share.png';
+  static const String ic_language = '${_internalImagePathPng}ic_language.png';
 
   /// lottie
   static const String lottiePremium = '${_internalImagePathLottie}premium.json';

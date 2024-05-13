@@ -23,14 +23,19 @@ class ItemList extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         width: double.maxFinite,
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: EdgeInsets.symmetric(vertical: 12.sp, horizontal: 16.sp),
         margin: EdgeInsets.symmetric(vertical: 10.0.sp, horizontal: 24.0.sp),
         decoration: BoxDecoration(
-          color: AppColor.white,
-          shape: BoxShape.rectangle,
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
-
-        ),
+            color: AppColor.white,
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.all(Radius.circular(12.sp)),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF000514).withOpacity(0.1),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              )
+            ]),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -53,35 +58,37 @@ class ItemList extends StatelessWidget {
                     addressFrom,
                     maxLines: 1,
                     overflow: TextOverflow.clip,
-                    style: const TextStyle(
-                        color: Color(0xFF5E5E5E),
+                    style: TextStyle(
+                        color: const Color(0xFF333333),
                         fontWeight: FontWeight.w400,
-                        fontSize: 16),
+                        fontSize: 13.sp),
                   ),
                 ),
               ],
             ),
-           Row(
-             children: [
-               SizedBox(width: 30.sp,),
-               Column(
-                 children: [
-                   Dot(
-                       size: 3,
-                       margin: EdgeInsets.symmetric(
-                           vertical: 1.5, horizontal: 12.5.sp - 2)),
-                   Dot(
-                       size: 3,
-                       margin: EdgeInsets.symmetric(
-                           vertical: 1.5, horizontal: 12.5.sp - 2)),
-                   Dot(
-                       size: 3,
-                       margin: EdgeInsets.symmetric(
-                           vertical: 1.5, horizontal: 12.5.sp - 2)),
-                 ],
-               )
-             ],
-           ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 30.sp,
+                ),
+                Column(
+                  children: [
+                    Dot(
+                        size: 2.sp,
+                        margin: EdgeInsets.symmetric(
+                            vertical: 1.5, horizontal: 12.5.sp - 2)),
+                    Dot(
+                        size: 2.sp,
+                        margin: EdgeInsets.symmetric(
+                            vertical: 1.5, horizontal: 12.5.sp - 2)),
+                    Dot(
+                        size: 2.sp,
+                        margin: EdgeInsets.symmetric(
+                            vertical: 1.5, horizontal: 12.5.sp - 2)),
+                  ],
+                )
+              ],
+            ),
             Row(
               children: [
                 Container(
@@ -101,10 +108,10 @@ class ItemList extends StatelessWidget {
                     addressTo,
                     maxLines: 1,
                     overflow: TextOverflow.clip,
-                    style: const TextStyle(
-                        color: Color(0xFF5E5E5E),
+                    style: TextStyle(
+                        color: const Color(0xFF333333),
                         fontWeight: FontWeight.w400,
-                        fontSize: 16),
+                        fontSize: 13.sp),
                   ),
                 ),
               ],

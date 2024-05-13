@@ -883,7 +883,6 @@ class MapTripController extends GetxController {
   }
 
   onPressFavorite() async {
-    isLoadingFavorite.value = true;
 
     if (data == null) {
       HistoryTrip historyTrip =

@@ -129,8 +129,8 @@ class ItemWeatherWidget extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  DateFormat('HH : mm')
-                      .format(DateTime.fromMillisecondsSinceEpoch(timeStamp!)),
+                  DateFormat('HH : mm').format(
+                      DateTime.fromMicrosecondsSinceEpoch(timeStamp! * 1000)),
                   style: TextStyle(
                     color: AppColor.gray,
                     fontSize: 14.0.sp,
@@ -197,8 +197,8 @@ class ItemWeatherWidget extends StatelessWidget {
 
   String getIcon() {
     String baseIcon = 'lib/app/res/image/png/';
-    DateTime time = DateTime.fromMillisecondsSinceEpoch(
-        hourlyDataWeather?.time ?? 1 * 1000);
+    DateTime time =
+        DateTime.fromMicrosecondsSinceEpoch((timeStamp ?? 1) * 1000);
     String icon = (hourlyDataWeather?.icon ?? '').isEmpty
         ? 'partly-cloudy-day'
         : hourlyDataWeather?.icon ?? "";

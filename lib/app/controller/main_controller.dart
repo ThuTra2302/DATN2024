@@ -28,7 +28,7 @@ class MainController extends GetxController {
   RxBool showWarn = false.obs;
   Position? _currentPosition;
   Hourly? dataWeather;
-  String? dataLocation;
+  RxString dataLocation = "---".obs;
 
   RxInt feelLikeTemp = 0.obs;
 
@@ -42,6 +42,7 @@ class MainController extends GetxController {
 
   RxInt valueInC = 0.obs;
   RxBool sendApi = false.obs;
+  RxBool isDay = true.obs;
 
   @override
   void onReady() async {
@@ -116,9 +117,7 @@ class MainController extends GetxController {
     cntWeatherForTrip.value = prefs.getInt("cnt_press_weather_your_trip") ?? 1;
 
     valueInC.value = (dataWeather?.temperature ?? 0).round();
-    feelLikeTemp.value =
-        ((dataWeather?.apparentTemperature ?? 0).round() as int)
-            .toUnit(Get.find<AppController>().currentUnitTypeTemp.value);
+    feelLikeTemp.value = ((dataWeather?.apparentTemperature ?? 0).round() as int).toUnit(Get.find<AppController>().currentUnitTypeTemp.value);
   }
 
   onPressWeatherForYourTrip() async {
@@ -144,9 +143,7 @@ class MainController extends GetxController {
 
     FirebaseAnalytics.instance.logEvent(name: 'home_trip');
 
-    if (isLoadingCurrentLocation01.value ||
-        isLoadingCurrentLocation02.value ||
-        isLoadingCurrentLocation03.value) {
+    if (isLoadingCurrentLocation01.value || isLoadingCurrentLocation02.value || isLoadingCurrentLocation03.value) {
       return;
     }
 
@@ -180,9 +177,7 @@ class MainController extends GetxController {
 
     FirebaseAnalytics.instance.logEvent(name: 'home_place');
 
-    if (isLoadingCurrentLocation01.value ||
-        isLoadingCurrentLocation02.value ||
-        isLoadingCurrentLocation03.value) {
+    if (isLoadingCurrentLocation01.value || isLoadingCurrentLocation02.value || isLoadingCurrentLocation03.value) {
       return;
     }
 
@@ -217,9 +212,7 @@ class MainController extends GetxController {
 
     FirebaseAnalytics.instance.logEvent(name: 'home_famous');
 
-    if (isLoadingCurrentLocation01.value ||
-        isLoadingCurrentLocation02.value ||
-        isLoadingCurrentLocation03.value) {
+    if (isLoadingCurrentLocation01.value || isLoadingCurrentLocation02.value || isLoadingCurrentLocation03.value) {
       return;
     }
 
@@ -229,11 +222,9 @@ class MainController extends GetxController {
       isLoadingCurrentLocation03.value = false;
 
       if (appController.isPremium.value) {
-        Get.toNamed(AppRoute.mapFamousScreen,
-            arguments: {'currentPosition': _currentPosition});
+        Get.toNamed(AppRoute.mapFamousScreen, arguments: {'currentPosition': _currentPosition});
       } else {
-        Get.toNamed(AppRoute.mapFamousScreen,
-            arguments: {'currentPosition': _currentPosition});
+        Get.toNamed(AppRoute.mapFamousScreen, arguments: {'currentPosition': _currentPosition});
       }
     } catch (e) {
       isLoadingCurrentLocation03.value = false;
@@ -254,8 +245,8 @@ class MainController extends GetxController {
 
   onPressUnitTemp(UnitTypeTemp unitTypeTemp) async {
     final AppController appController = Get.find<AppController>();
-
     appController.currentUnitTypeTemp.value = unitTypeTemp;
+    chooseC.value = unitTypeTemp == UnitTypeTemp.c;
   }
 
   initWeather() async {
@@ -265,9 +256,7 @@ class MainController extends GetxController {
 
     try {
       if (_currentPosition != null) {
-        GeocodingResponse geocodingResponse =
-            await GoogleMapsGeocoding(apiKey: AppConstant.keyGoogleMap)
-                .searchByLocation(
+        GeocodingResponse geocodingResponse = await GoogleMapsGeocoding(apiKey: AppConstant.keyGoogleMap).searchByLocation(
           Location(
             lat: _currentPosition!.latitude,
             lng: _currentPosition!.longitude,
@@ -284,11 +273,10 @@ class MainController extends GetxController {
         ]);
 
         if (geocodingResponse.results.isNotEmpty) {
-          dataLocation = geocodingResponse.results.first.formattedAddress;
+          dataLocation.value = geocodingResponse.results.first.formattedAddress ?? "";
         }
 
-        if ((weatherResponse?.body.data ?? []).isNotEmpty &&
-            (weatherResponse?.body.data.first.hourly ?? []).isNotEmpty) {
+        if ((weatherResponse?.body.data ?? []).isNotEmpty && (weatherResponse?.body.data.first.hourly ?? []).isNotEmpty) {
           dataWeather = weatherResponse!.body.data.first.hourly.first;
         }
         showWarn.value = false;
@@ -309,41 +297,33 @@ class MainController extends GetxController {
 
   // Khởi tạo ảnh dùng cho marker của map
   _initMapBitmapDescriptorMarker() async {
-    final manifestJson =
-        await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
-    final images = json
-        .decode(manifestJson)
-        .keys
-        .where((String key) => key.startsWith('lib/app/res/image/marker/'))
-        .toList();
+    final manifestJson = await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
+    final images = json.decode(manifestJson).keys.where((String key) => key.startsWith('lib/app/res/image/marker/')).toList();
     for (String itemImage in images) {
-      final Uint8List markerIcon = await _getBytesFromAsset(
-          itemImage, (40 * ui.window.devicePixelRatio).toInt());
-      BitmapDescriptor bitmapDescriptor =
-          BitmapDescriptor.fromBytes(markerIcon);
-      mapBitmapDescriptorMarker[itemImage.split('/').last.split('.').first] =
-          bitmapDescriptor;
+      final Uint8List markerIcon = await _getBytesFromAsset(itemImage, (40 * ui.window.devicePixelRatio).toInt());
+      BitmapDescriptor bitmapDescriptor = BitmapDescriptor.fromBytes(markerIcon);
+      mapBitmapDescriptorMarker[itemImage.split('/').last.split('.').first] = bitmapDescriptor;
     }
   }
 
   Future<Uint8List> _getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-        targetWidth: width);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
   }
+
   String getIcon() {
     String baseIcon = 'lib/app/res/image/png/';
-    DateTime time = DateTime.fromMillisecondsSinceEpoch(dataWeather?.time ?? 1*1000);
+
+    DateTime time = DateTime.fromMicrosecondsSinceEpoch(dataWeather?.time * 1000);
+    AppLog.debug("${time.hour}:  ${time.minute} ");
     String icon = (dataWeather?.icon ?? '').isEmpty ? 'partly-cloudy-day' : dataWeather?.icon ?? "";
 
     int hour = time.hour;
     bool isDaytime = hour >= 6 && hour < 18;
+    isDay.value = isDaytime;
 
-    return '$baseIcon$icon${isDaytime?'':'_n'}.png';
+    return '$baseIcon$icon${isDaytime ? '' : '_n'}.png';
   }
-
 }

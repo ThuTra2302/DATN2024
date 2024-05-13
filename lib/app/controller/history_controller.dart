@@ -1,8 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:travel/app/storage/history_trip.dart';
 import 'package:travel/app/ui/screen/sub_screen.dart';
+import 'package:travel/app/ui/widget/dialog/dialog_ask.dart';
 
 import '../route/app_route.dart';
 import '../storage/database_service.dart';
@@ -42,6 +44,26 @@ class HistoryController extends GetxController {
       arguments: {
         'currentPosition': currentPosition,
         'data': list[index],
+      },
+    );
+  }
+
+  void onPressDelete(HistoryTrip item) async {
+    showDialogAsk(
+        context, 'Are you sure you want to remove this place from history?',
+        () async {
+      await DatabaseService().deleteHistoryTrip(item);
+      list.value = await DatabaseService().getAll();
+      Get.back();
+    });
+  }
+
+  onPressWeatherForYourTrip() async {
+    Get.toNamed(
+      AppRoute.mapTripScreen,
+      arguments: {
+        'currentPosition': currentPosition,
+        'data': null,
       },
     );
   }

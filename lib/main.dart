@@ -94,7 +94,7 @@ void mainDelegate() async {
       builder: (context, widget) => GetMaterialApp(
         debugShowCheckedModeBanner: false,
         initialBinding: AppBinding(),
-        initialRoute: AppRoute.splashScreen,
+        initialRoute: AppRoute.mainScreen,
         defaultTransition: Transition.fade,
         getPages: AppPage.pages,
         localizationsDelegates: const [
