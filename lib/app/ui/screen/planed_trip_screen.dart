@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:travel/app/res/image/app_image.dart';
 import 'package:travel/app/ui/widget/app_image_widget.dart';
@@ -82,9 +83,9 @@ class PlanedTripScreen extends GetView<PlanedTripController> {
                         Tab(
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: const <Widget>[
-                              Icon(
-                                Icons.favorite_border,
+                            children:  <Widget>[
+                              SvgPicture.asset(
+                                AppImage.icNoteFavorite,
                                 color: Color(0xFFFF2D55),
                               ),
                               SizedBox(width: 8),

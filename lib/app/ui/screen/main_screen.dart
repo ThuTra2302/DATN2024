@@ -151,7 +151,7 @@ class MainScreen extends GetView<MainController> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                  width: 16.sp,
+                                  width: 12.sp,
                                 ),
                                 Expanded(
                                   child: Text(
@@ -172,7 +172,7 @@ class MainScreen extends GetView<MainController> {
                             Row(
                               children: [
                                 SizedBox(
-                                  width: 16.sp,
+                                  width: 12.sp,
                                 ),
                                 Expanded(
                                     child: Obx(
@@ -189,7 +189,7 @@ class MainScreen extends GetView<MainController> {
                               ],
                             ),
                             SizedBox(
-                              height: 35.sp,
+                              height: 17.sp,
                             ),
                           ],
                         ),
@@ -557,7 +557,7 @@ class MainScreen extends GetView<MainController> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: MediaQuery.of(context).padding.top + 20.sp,
+                            height: MediaQuery.of(context).padding.top + 80.sp,
                           ),
                           Obx(
                             () => AnimatedSwitcher(

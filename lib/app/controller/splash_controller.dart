@@ -39,12 +39,10 @@ class SplashController extends GetxController with ConnectionMixin {
     version.value = packageInfo.version;
 
     final prefs = await SharedPreferences.getInstance();
-    String? language = prefs.getString('language');
     _isFirstTimeOpenApp = prefs.getBool('is_first_open_app') ?? true;
     // _isFirstTimeOpenApp =  true;
 
-    Get.find<AppController>().updateLocale(
-        AppConstant.availableLocales[int.tryParse(language ?? '') ?? 1]);
+    Get.find<AppController>().updateLocale(AppConstant.availableLocales[0]);
     String stringUnitTypeTemp = prefs.getString('unitTypeTemp') ?? '';
     UnitTypeTemp unitTypeTemp = Get.find<AppController>()
         .listUnitTypeTemp
@@ -61,9 +59,6 @@ class SplashController extends GetxController with ConnectionMixin {
     );
 
     await initConnectivity();
-
-
-
   }
 
   @override

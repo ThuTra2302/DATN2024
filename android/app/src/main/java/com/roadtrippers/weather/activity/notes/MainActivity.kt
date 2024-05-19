@@ -1,4 +1,4 @@
-package com.roadtrippers.weather.activity.notes
+package com.datn.tra.travelweather
 
 
 import io.flutter.embedding.android.FlutterActivity
@@ -11,19 +11,8 @@ class MainActivity : FlutterActivity() {
         flutterEngine.getPlugins().add(GoogleMobileAdsPlugin())
         super.configureFlutterEngine(flutterEngine)
 
-        GoogleMobileAdsPlugin.registerNativeAdFactory(
-            flutterEngine, "smallAdFactory", SmallNativeAdFactory(getLayoutInflater())
-        )
-        GoogleMobileAdsPlugin.registerNativeAdFactory(
-            flutterEngine, "mediumAdFactory", MediumNativeAdFactory(getLayoutInflater())
-        )
 
-    }
 
-    override fun cleanUpFlutterEngine(flutterEngine: io.flutter.embedding.engine.FlutterEngine) {
-        super.cleanUpFlutterEngine(flutterEngine)
-        GoogleMobileAdsPlugin.unregisterNativeAdFactory(flutterEngine, "smallAdFactory")
-        GoogleMobileAdsPlugin.unregisterNativeAdFactory(flutterEngine, "mediumAdFactory")
     }
 
 }

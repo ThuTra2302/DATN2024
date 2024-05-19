@@ -70,7 +70,7 @@ class SettingController extends GetxController {
       Share.share('${StringConstants.shareMessage.tr}: itms-apps://apple.com/app/');
     } else {
       Share.share(
-          '${StringConstants.shareMessage.tr}: https://play.google.com/store/apps/details?id=com.roadtrippers.weather.activity.notes');
+          '${StringConstants.shareMessage.tr}: https://play.google.com/store/apps/details?id=com.datn.tra.travelweather');
     }
   }
 

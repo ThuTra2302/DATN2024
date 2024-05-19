@@ -16,6 +16,7 @@ import '../theme/app_color.dart';
 import '../widget/app_container.dart';
 import '../widget/app_image_widget.dart';
 import '../widget/app_touchable.dart';
+import '../widget/app_touchable2.dart';
 import '../widget/item_weather_widget.dart';
 
 class WeatherMapScreen extends GetView<MapTripController> {
@@ -24,14 +25,11 @@ class WeatherMapScreen extends GetView<MapTripController> {
   Widget buildHeader(BuildContext context) {
     return Container(
       width: Get.width,
-      margin: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top + 12.0.sp,
-          left: 65.sp,
-          right: 20.sp),
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 10.sp),
       decoration: BoxDecoration(
         color: Colors.white,
         shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(20.sp),
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(20.sp)),
         boxShadow: [
           BoxShadow(
             offset: const Offset(0, 0),
@@ -45,11 +43,26 @@ class WeatherMapScreen extends GetView<MapTripController> {
           )
         ],
       ),
-      padding: EdgeInsets.all(8.sp),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          AppTouchable2(
+            onPressed: () {
+              Get.back();
+              Get.back();
+            },
+            margin: EdgeInsets.only(
+              right: 13.sp,
+              left: 13.sp,
+              top: 3.sp,
+            ),
+            child: AppImageWidget.asset(
+              path: AppImage.ic_back,
+              height: 24.sp,
+              width: 24.sp,
+            ),
+          ),
           SizedBox(width: 8.0.sp),
           Expanded(
             child: Column(
@@ -71,6 +84,8 @@ class WeatherMapScreen extends GetView<MapTripController> {
                       child: Obx(
                         () => Text(
                           controller.fromAdd.value,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: AppColor.black333,
                             fontSize: 16.0.sp,
@@ -82,8 +97,8 @@ class WeatherMapScreen extends GetView<MapTripController> {
                   ],
                 ),
                 Container(
-                  width: 3.0.sp,
-                  height: 3.0.sp,
+                  width: 2.0.sp,
+                  height: 2.0.sp,
                   margin: EdgeInsets.only(
                     left: 12.0.sp - 1.5.sp,
                     top: 2.0.sp,
@@ -95,8 +110,8 @@ class WeatherMapScreen extends GetView<MapTripController> {
                   ),
                 ),
                 Container(
-                  width: 3.0.sp,
-                  height: 3.0.sp,
+                  width: 2.0.sp,
+                  height: 2.0.sp,
                   margin: EdgeInsets.only(
                     left: 12.0.sp - 1.5.sp,
                     top: 2.0.sp,
@@ -108,8 +123,8 @@ class WeatherMapScreen extends GetView<MapTripController> {
                   ),
                 ),
                 Container(
-                  width: 3.0.sp,
-                  height: 3.0.sp,
+                  width: 2.0.sp,
+                  height: 2.0.sp,
                   margin: EdgeInsets.only(
                     left: 12.0.sp - 1.5.sp,
                     top: 2.0.sp,
@@ -134,6 +149,8 @@ class WeatherMapScreen extends GetView<MapTripController> {
                       child: Obx(
                         () => Text(
                           controller.toAdd.value,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: AppColor.black333,
                             fontSize: 16.0.sp,
@@ -177,6 +194,7 @@ class WeatherMapScreen extends GetView<MapTripController> {
               ],
             ),
           ),
+          SizedBox(width: 8.0.sp),
         ],
       ),
     );
@@ -197,12 +215,7 @@ class WeatherMapScreen extends GetView<MapTripController> {
                             key: const ValueKey(0),
                             width: 187.0.sp,
                             height: 114.0.sp,
-                            margin: EdgeInsets.only(
-                                bottom: 12.0.sp +
-                                    (MediaQuery.of(context).padding.bottom > 0
-                                        ? 20.0.sp
-                                        : 0),
-                                right: 12.0.sp),
+                            margin: EdgeInsets.only(bottom: 12.0.sp + (MediaQuery.of(context).padding.bottom > 0 ? 20.0.sp : 0), right: 12.0.sp),
                             decoration: BoxDecoration(
                               color: AppColor.white,
                               borderRadius: BorderRadius.circular(16.0.sp),
@@ -218,30 +231,15 @@ class WeatherMapScreen extends GetView<MapTripController> {
                             child: Obx(
                               () => Column(
                                 children: [
-                                  {
-                                    'type': WeatherType.temp,
-                                    'text': StringConstants.weatherForecast.tr,
-                                    'asset': AppImage.ic_weather
-                                  },
-                                  {
-                                    'type': WeatherType.wind,
-                                    'text': StringConstants.wind.tr,
-                                    'asset': AppImage.ic_wind
-                                  },
-                                  {
-                                    'type': WeatherType.pre,
-                                    'text': StringConstants.precipitation.tr,
-                                    'asset': AppImage.ic_pre
-                                  },
+                                  {'type': WeatherType.temp, 'text': StringConstants.weatherForecast.tr, 'asset': AppImage.ic_weather},
+                                  {'type': WeatherType.wind, 'text': StringConstants.wind.tr, 'asset': AppImage.ic_wind},
+                                  {'type': WeatherType.pre, 'text': StringConstants.precipitation.tr, 'asset': AppImage.ic_pre},
                                 ].map((e) {
-                                  bool isSelected = e['type'] ==
-                                      controller.currentWeatherType.value;
+                                  bool isSelected = e['type'] == controller.currentWeatherType.value;
                                   return AppTouchable(
                                     width: 160.0.sp,
                                     height: 36.0.sp,
-                                    onPressed: () =>
-                                        controller.onPressWeatherType(
-                                            e['type'] as WeatherType),
+                                    onPressed: () => controller.onPressWeatherType(e['type'] as WeatherType),
                                     child: Row(
                                       children: [
                                         AppImageWidget.asset(
@@ -277,12 +275,7 @@ class WeatherMapScreen extends GetView<MapTripController> {
                             onPressed: controller.onPressWeatherTypeToggle,
                             width: 50.0.sp,
                             height: 50.0.sp,
-                            margin: EdgeInsets.only(
-                                bottom: 12.0.sp +
-                                    (MediaQuery.of(context).padding.bottom > 0
-                                        ? 20.0.sp
-                                        : 0),
-                                right: 12.0.sp),
+                            margin: EdgeInsets.only(bottom: 12.0.sp + (MediaQuery.of(context).padding.bottom > 0 ? 20.0.sp : 0), right: 12.0.sp),
                             padding: EdgeInsets.all(4.0.sp),
                             borderRadius: BorderRadius.circular(30.0.sp),
                             decoration: BoxDecoration(
@@ -320,8 +313,7 @@ class WeatherMapScreen extends GetView<MapTripController> {
                     onPressed: controller.onPressMyLocation,
                     width: 50.0.sp,
                     height: 50.0.sp,
-                    margin: EdgeInsets.only(
-                        bottom: 12.0.sp + 66.0.sp, right: 12.0.sp),
+                    margin: EdgeInsets.only(bottom: 12.0.sp + 66.0.sp, right: 12.0.sp),
                     padding: EdgeInsets.all(4.0.sp),
                     borderRadius: BorderRadius.circular(30.0.sp),
                     decoration: BoxDecoration(
@@ -356,7 +348,6 @@ class WeatherMapScreen extends GetView<MapTripController> {
       children: [
         Container(
           width: Get.width * 0.5,
-          height: 6.0.sp,
           margin: EdgeInsets.only(
             top: 12.0.sp,
             bottom: 8.0.sp,
@@ -367,13 +358,14 @@ class WeatherMapScreen extends GetView<MapTripController> {
           ),
         ),
         Container(
-          padding: EdgeInsets.only(left: 16.sp, right: 16.sp),
+          padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 8.sp),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               //SizedBox(width: 16.0.sp),
               Text(
                 "Timeline",
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppColor.black333,
                   fontSize: 15.0.sp,
@@ -385,23 +377,22 @@ class WeatherMapScreen extends GetView<MapTripController> {
                   controller.onPressFavorite();
                 },
                 child: Obx(
-                      () => !controller.isFavorite.value
+                  () => !controller.isFavorite.value
                       ? AppImageWidget.asset(
-                    path: AppImage.icNoteFavorite,
-                    height: 26.sp,
-                  )
+                          path: AppImage.icNoteFavorite,
+                          height: 26.sp,
+                        )
                       : AppImageWidget.asset(
-                    path: AppImage.icFavorite,
-                    height: 26.sp,
-                  ),
+                          path: AppImage.icFavorite,
+                          height: 26.sp,
+                        ),
                 ),
               ),
             ],
           ),
         ),
         SizedBox(
-          height: 10.0.sp +
-              (MediaQuery.of(context).padding.bottom > 0 ? 20.0.sp : 0),
+          height: 10.0.sp + (MediaQuery.of(context).padding.bottom > 0 ? 20.0.sp : 0),
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 14.0.sp),
@@ -502,12 +493,7 @@ class WeatherMapScreen extends GetView<MapTripController> {
                       children: [
                         Obx(
                           () => Text(
-                            DateFormat(
-                                    'MMM dd',
-                                    Get.find<AppController>()
-                                        .currentLocale
-                                        .languageCode)
-                                .format(controller.dateTrip.value),
+                            DateFormat('MMM dd', Get.find<AppController>().currentLocale.languageCode).format(controller.dateTrip.value),
                             style: TextStyle(
                               color: AppColor.black333,
                               fontSize: 16.0.sp,
@@ -518,12 +504,7 @@ class WeatherMapScreen extends GetView<MapTripController> {
                         SizedBox(height: 8.sp),
                         Obx(
                           () => Text(
-                            DateFormat(
-                                    'HH : mm',
-                                    Get.find<AppController>()
-                                        .currentLocale
-                                        .languageCode)
-                                .format(controller.timeTrip.value),
+                            DateFormat('HH : mm', Get.find<AppController>().currentLocale.languageCode).format(controller.timeTrip.value),
                             style: TextStyle(
                               color: AppColor.black333,
                               fontSize: 16.0.sp,
@@ -570,8 +551,7 @@ class WeatherMapScreen extends GetView<MapTripController> {
                         data: e,
                         onPressed: (data) async {
                           if (data['latLng'] != null) {
-                            final GoogleMapController gmc =
-                                await controller.googleMapController.future;
+                            final GoogleMapController gmc = await controller.googleMapController.future;
                             gmc.animateCamera(
                               CameraUpdate.newLatLng(data['latLng']),
                             );
@@ -617,6 +597,79 @@ class WeatherMapScreen extends GetView<MapTripController> {
     );
   }
 
+  Widget _buttonTimeLine(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(color: AppColor.white, borderRadius: BorderRadius.vertical(top: Radius.circular(16.sp)), boxShadow: [
+        BoxShadow(color: AppColor.white.withOpacity(0.04), blurRadius: 1),
+        BoxShadow(color: AppColor.white.withOpacity(0.04), blurRadius: 1),
+      ]),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            height: 4.sp,
+            width: 134.sp,
+            decoration: BoxDecoration(
+              color: const Color(0xFF3C3C43).withOpacity(0.18),
+              borderRadius: BorderRadius.circular(16.sp),
+            ),
+          ),
+          SizedBox(
+            height: 10.sp,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.sp),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppTouchable(
+                  width: Get.width * 3.2 / 4,
+                  height: 48.0.sp,
+                  onPressed: controller.onPressWeatherTimeline,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(50.0.sp),
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color(0xFF437AFF),
+                        Color(0xFF67A4FE),
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                  ),
+                  child: Text(
+                    StringConstants.weatherTimeline.tr,
+                    style: TextStyle(
+                      color: AppColor.white,
+                      fontSize: 18.0.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                AppTouchable3(
+                    onPressed: () {
+                      controller.onPressFavorite();
+                    },
+                    child: Obx(
+                      () => !controller.isFavorite.value
+                          ? AppImageWidget.asset(
+                              path: AppImage.icNoteFavorite,
+                              height: 26.sp,
+                            )
+                          : AppImageWidget.asset(
+                              path: AppImage.icFavorite,
+                              height: 26.sp,
+                            ),
+                    )),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppContainer(
@@ -629,9 +682,7 @@ class WeatherMapScreen extends GetView<MapTripController> {
                 ? const SizedBox.shrink()
                 : GoogleMap(
                     mapType: MapType.normal,
-                    padding: controller.isMapLoaded.value
-                        ? EdgeInsets.only(top: 200.0.sp)
-                        : EdgeInsets.zero,
+                    padding: controller.isMapLoaded.value ? EdgeInsets.only(top: 200.0.sp) : EdgeInsets.zero,
                     initialCameraPosition: CameraPosition(
                       target: LatLng(
                         controller.currentPosition!.latitude,
@@ -647,52 +698,33 @@ class WeatherMapScreen extends GetView<MapTripController> {
                     onMapCreated: (GoogleMapController googleMapController) {
                       controller.isMapLoaded.value = true;
                       if (!controller.googleMapController.isCompleted) {
-                        controller.googleMapController
-                            .complete(googleMapController);
+                        controller.googleMapController.complete(googleMapController);
                       }
 
-                      controller.customInfoWindowController00
-                          .googleMapController = googleMapController;
-                      controller.customInfoWindowController01
-                          .googleMapController = googleMapController;
-                      controller.customInfoWindowController02
-                          .googleMapController = googleMapController;
-                      controller.customInfoWindowController03
-                          .googleMapController = googleMapController;
-                      controller.customInfoWindowController04
-                          .googleMapController = googleMapController;
-                      controller.customInfoWindowController05
-                          .googleMapController = googleMapController;
+                      controller.customInfoWindowController00.googleMapController = googleMapController;
+                      controller.customInfoWindowController01.googleMapController = googleMapController;
+                      controller.customInfoWindowController02.googleMapController = googleMapController;
+                      controller.customInfoWindowController03.googleMapController = googleMapController;
+                      controller.customInfoWindowController04.googleMapController = googleMapController;
+                      controller.customInfoWindowController05.googleMapController = googleMapController;
                     },
                     onCameraMove: (position) {
-                      if (controller
-                              .customInfoWindowController00.onCameraMove !=
-                          null) {
+                      if (controller.customInfoWindowController00.onCameraMove != null) {
                         controller.customInfoWindowController00.onCameraMove!();
                       }
-                      if (controller
-                              .customInfoWindowController01.onCameraMove !=
-                          null) {
+                      if (controller.customInfoWindowController01.onCameraMove != null) {
                         controller.customInfoWindowController01.onCameraMove!();
                       }
-                      if (controller
-                              .customInfoWindowController02.onCameraMove !=
-                          null) {
+                      if (controller.customInfoWindowController02.onCameraMove != null) {
                         controller.customInfoWindowController02.onCameraMove!();
                       }
-                      if (controller
-                              .customInfoWindowController03.onCameraMove !=
-                          null) {
+                      if (controller.customInfoWindowController03.onCameraMove != null) {
                         controller.customInfoWindowController03.onCameraMove!();
                       }
-                      if (controller
-                              .customInfoWindowController04.onCameraMove !=
-                          null) {
+                      if (controller.customInfoWindowController04.onCameraMove != null) {
                         controller.customInfoWindowController04.onCameraMove!();
                       }
-                      if (controller
-                              .customInfoWindowController05.onCameraMove !=
-                          null) {
+                      if (controller.customInfoWindowController05.onCameraMove != null) {
                         controller.customInfoWindowController05.onCameraMove!();
                       }
                     },
@@ -734,41 +766,12 @@ class WeatherMapScreen extends GetView<MapTripController> {
             height: 85.0.sp,
             offset: 30.0.sp,
           ),
-          Positioned(
-            top: MediaQuery.of(context).padding.top + 12.0.sp,
-            left: 20.sp,
-            child: Container(
-              height: 40.sp,
-              width: 40.sp,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColor.blueCF6,
-              ),
-              child: IconButton(
-                onPressed: () {
-                  Get.back();
-                  Get.back();
-                },
-                icon: AppImageWidget.asset(
-                  path: AppImage.ic_back,
-                  height: 20.sp,
-                  width: 20.sp,
-                  color: AppColor.white,
-                ),
-              ),
-            ),
-          ),
           buildHeader(context),
           buildGroupButton(context),
           Obx(
             () => SlidingUpPanel(
-              minHeight: !controller.haveWeatherData.value
-                  ? 0
-                  : (60.0.sp +
-                      (MediaQuery.of(context).padding.bottom > 0
-                          ? 20.0.sp
-                          : 0)),
-              maxHeight: 360.0.sp + MediaQuery.of(context).padding.bottom,
+              minHeight: !controller.haveWeatherData.value ? 0 : (80.0.sp + (MediaQuery.of(context).padding.bottom > 0 ? 20.0.sp : 0)),
+              maxHeight: !controller.haveWeatherData.value ? 0 : (80.0.sp + (MediaQuery.of(context).padding.bottom > 0 ? 20.0.sp : 0)),
               // maxHeight: Get.height,
               backdropColor: Colors.white,
               borderRadius: BorderRadius.only(
@@ -788,7 +791,7 @@ class WeatherMapScreen extends GetView<MapTripController> {
                   color: Colors.black.withOpacity(0.04),
                 )
               ],
-              panel: _buildSlidingUpPanel(context),
+              panel: _buttonTimeLine(context),
             ),
           ),
         ],

@@ -202,15 +202,15 @@ class AppController extends SuperController {
           rxPurchaseStatus.value = purchaseDetails.status;
           isPremium.value = true;
           switch (purchaseDetails.productID) {
-            case 'com.roadtrippers.weather.activity.notes.year':
+            case 'com.datn.tra.travelweather.year':
               isPremium.value = true;
               break;
 
-            case 'com.roadtrippers.weather.activity.notes.month':
+            case 'com.datn.tra.travelweather.month':
               isPremium.value = true;
               break;
 
-            case 'com.roadtrippers.weather.activity.notes.week':
+            case 'com.datn.tra.travelweather.week':
               isPremium.value = true;
               break;
           }

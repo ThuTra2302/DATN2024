@@ -1,6 +1,5 @@
 import 'dart:io' as io;
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -9,10 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'app/binding/app_binding.dart';
-import 'app/common/remote_config.dart';
 import 'app/res/string/app_strings.dart';
 import 'app/route/app_page.dart';
 import 'app/route/app_route.dart';
@@ -23,16 +20,14 @@ import 'app/util/app_util.dart';
 late AndroidNotificationChannel channel;
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-io.SecurityContext appSecurityContext =
-    io.SecurityContext(withTrustedRoots: true);
+io.SecurityContext appSecurityContext = io.SecurityContext(withTrustedRoots: true);
 
 void mainDelegate() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
     // avoid crash when pop screen with maps
-    final GoogleMapsFlutterPlatform mapsImplementation =
-        GoogleMapsFlutterPlatform.instance;
+    final GoogleMapsFlutterPlatform mapsImplementation = GoogleMapsFlutterPlatform.instance;
     if (mapsImplementation is GoogleMapsFlutterAndroid) {
       mapsImplementation.useAndroidViewSurface = false;
     }
@@ -40,11 +35,7 @@ void mainDelegate() async {
     log(e.toString());
   }
 
-  await Firebase.initializeApp();
-  await RemoteConfig.init();
-
-  ByteData clientCertificate =
-      await rootBundle.load("lib/app/res/raw/cert.pfx");
+  ByteData clientCertificate = await rootBundle.load("lib/app/res/raw/cert.pfx");
   var dataByte = clientCertificate.buffer.asUint8List();
   String password = await rootBundle.loadString("lib/app/res/raw/pwd.txt");
 
@@ -57,15 +48,7 @@ void mainDelegate() async {
     password: password,
   );
 
-  MobileAds.instance.initialize();
-  MobileAds.instance.updateRequestConfiguration(
-    RequestConfiguration(
-      testDeviceIds: [
-        '74D6469B3712F261997506C48A969B99',
-        '9249D30A745C469EA2B4E1709CBB0707',
-      ],
-    ),
-  );
+
 
   // notification start
   channel = const AndroidNotificationChannel(
@@ -76,15 +59,13 @@ void mainDelegate() async {
   flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   /// Get data from notification click (app terminated)
-  final NotificationAppLaunchDetails? notificationAppLaunchDetails =
-      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+  final NotificationAppLaunchDetails? notificationAppLaunchDetails = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
   String? payload = notificationAppLaunchDetails?.notificationResponse?.payload;
   if (payload != null) {
     // SessionData.isOpenFromNotification = true;
   }
   await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
+      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
   // notification end
 

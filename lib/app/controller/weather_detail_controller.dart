@@ -24,13 +24,12 @@ class WeatherDetailController extends GetxController {
 
   late RxBool chooseC;
 
-
-
   String title = StringConstants.weatherForYourTrip.tr;
   String imageUrl = '';
   String imageAsset = '';
   String background = AppImage.imgDem;
   Color backColor = AppColor.white;
+  RxBool isDay = true.obs;
 
   num windSpeed = 0.0;
   num windGust = 0.0;
@@ -65,7 +64,7 @@ class WeatherDetailController extends GetxController {
     title = Get.arguments['title'] ?? StringConstants.weatherForYourTrip.tr;
     imageUrl = Get.arguments['imageUrl'] ?? '';
     imageAsset = Get.arguments['imageAsset'] ?? '';
-    chooseC=Get.find<MainController>().chooseC;
+    chooseC = Get.find<MainController>().chooseC;
     int a = data['weather']?.windBearing ?? 0;
     if (a <= 22 || a >= 338) {
       d = 'N';
@@ -90,7 +89,6 @@ class WeatherDetailController extends GetxController {
 
     feelLikeTemp.value = (data['weather']?.apparentTemperature.round() as int)
         .toUnit(Get.find<AppController>().currentUnitTypeTemp.value);
-
 
     windSpeed = data['weather']?.windSpeed ?? 0;
     windGust = data['weather']?.windGust ?? 0;
@@ -202,16 +200,20 @@ class WeatherDetailController extends GetxController {
     } else {
       appController.updateUnitTypeTemp(UnitTypeTemp.c);
     }
-
   }
+
   String getIcon() {
     String baseIcon = 'lib/app/res/image/png/';
-    DateTime time = DateTime.fromMillisecondsSinceEpoch(data['weather']?.time ?? 1*1000);
-    String icon = (data['weather']?.icon?? '').isEmpty ? 'partly-cloudy-day' : data['weather']?.icon?? "";
+    DateTime time = DateTime.fromMicrosecondsSinceEpoch(
+        (data['weather']?.time ?? 1) * 1000);
+    String icon = (data['weather']?.icon ?? '').isEmpty
+        ? 'partly-cloudy-day'
+        : data['weather']?.icon ?? "";
 
     int hour = time.hour;
     bool isDaytime = hour >= 6 && hour < 18;
+    isDay.value = isDaytime;
 
-    return '$baseIcon$icon${isDaytime?'':'_n'}.png';
+    return '$baseIcon$icon${isDaytime ? '' : '_n'}.png';
   }
 }

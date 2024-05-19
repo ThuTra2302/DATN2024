@@ -108,7 +108,7 @@ class _RatingWidgetState extends State<RatingWidget> {
                                 prefs.setBool("first_rate", false);
                                 Get.find<AppController>().isFirstRate = false;
 
-                                const appId = 'com.roadtrippers.weather.activity.notes';
+                                const appId = 'com.datn.tra.travelweather';
                                 final url = Uri.parse("market://details?id=$appId");
                                 launchUrl(
                                   url,
