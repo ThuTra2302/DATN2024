@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:508557963132:android:ecdc64c6dba0c22cedbef9",
         "android_client_info": {
-          "package_name": "com.datn.tra.travelweather"
+          "package_name": "com.roadtrippers.weather.activity.notes"
         }
       },
       "oauth_client": [

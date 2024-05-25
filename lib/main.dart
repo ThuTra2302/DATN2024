@@ -1,5 +1,6 @@
 import 'dart:io' as io;
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -8,8 +9,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'app/binding/app_binding.dart';
+import 'app/common/remote_config.dart';
 import 'app/res/string/app_strings.dart';
 import 'app/route/app_page.dart';
 import 'app/route/app_route.dart';
@@ -34,6 +37,9 @@ void mainDelegate() async {
   } catch (e) {
     log(e.toString());
   }
+
+  await Firebase.initializeApp();
+  await RemoteConfig.init();
 
   ByteData clientCertificate = await rootBundle.load("lib/app/res/raw/cert.pfx");
   var dataByte = clientCertificate.buffer.asUint8List();
@@ -75,7 +81,7 @@ void mainDelegate() async {
       builder: (context, widget) => GetMaterialApp(
         debugShowCheckedModeBanner: false,
         initialBinding: AppBinding(),
-        initialRoute: AppRoute.mainScreen,
+        initialRoute: AppRoute.splashScreen,
         defaultTransition: Transition.fade,
         getPages: AppPage.pages,
         localizationsDelegates: const [

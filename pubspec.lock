@@ -614,7 +614,7 @@ packages:
     source: hosted
     version: "0.0.20-nullsafety.5"
   google_mobile_ads:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: google_mobile_ads
       sha256: "010b7a7a81b5c8f760eb2e5add8eaa7e429b4982dc8c8e465b709611f52887be"

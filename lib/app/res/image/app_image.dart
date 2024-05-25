@@ -193,6 +193,7 @@ class AppImage {
   static const String bgIntro2 = '${_internalImagePathPng}bg_intro2.png';
   static const String bgIntro3 = '${_internalImagePathPng}bg_intro3.png';
   static const String bgIntro4 = '${_internalImagePathPng}bg_intro4.png';
+  static const String circle = '${_internalImagePathPng}circle.png';
 
   static const String categoryEbook =
       '${_internalImagePathPng}category_e_book.png';

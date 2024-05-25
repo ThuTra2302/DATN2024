@@ -47,7 +47,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.datn.tra.travelweather"
+        applicationId "com.roadtrippers.weather.activity.notes"
         minSdkVersion 21
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
@@ -65,7 +65,7 @@ android {
         dev {
             storeFile file("key_weathertravel")
             storePassword "123456"
-            keyAlias "weathertravel"
+            keyAlias "weathertravel-dev"
             keyPassword "123456"
         }
     }
@@ -80,14 +80,14 @@ android {
     flavorDimensions "default"
     productFlavors {
         Dev {
-            applicationId "com.datn.tra.travelweather"
+            applicationId "com.roadtrippers.weather.activity.notes"
             resValue "string", "app_name", "Travel Weather-DEV"
             resValue "string", "ads_id", "ca-app-pub-3940256099942544~3347511713"
             signingConfig signingConfigs.dev
         }
         Prod {
-            applicationId "com.datn.tra.travelweather"
-            resValue "string", "app_name", "Roadtripper"
+            applicationId "com.roadtrippers.weather.activity.notes"
+            resValue "string", "app_name", "Travel Weather"
 //            resValue "string", "ads_id", "ca-app-pub-5294836995166944~6883418603"
             resValue "string", "ads_id",   "ca-app-pub-9819920607806935~1891988637"
             signingConfig signingConfigs.release

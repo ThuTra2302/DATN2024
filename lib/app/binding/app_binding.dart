@@ -7,6 +7,5 @@ class AppBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(AppController());
-    Get.put(AppFlyerController());
   }
 }

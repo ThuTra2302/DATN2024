@@ -118,7 +118,7 @@ class MainScreen extends GetView<MainController> {
         clipBehavior: Clip.none,
         children: [
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 32.sp),
+            margin: EdgeInsets.only(right: 32.sp, left: 32.sp, top: 80.sp),
             padding: EdgeInsets.symmetric(vertical: 20.sp),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(36.sp),
@@ -349,12 +349,12 @@ class MainScreen extends GetView<MainController> {
             ),
           ),
           Positioned(
-            top: -80.sp,
+            top: 0.sp,
             left: 20.sp,
             child: AppImageWidget.asset(
               path: controller.getIcon(),
-              width: Get.width / 2,
-              height: Get.width / 2.5,
+              width: 200.sp,
+              height: 200.sp,
             ),
           ),
         ],
@@ -377,9 +377,9 @@ class MainScreen extends GetView<MainController> {
         borderRadius: BorderRadius.circular(38.sp),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF000000).withOpacity(0.1),
-            blurRadius: 16,
-            offset: const Offset(0, 0),
+            color: color.withOpacity(0.1),
+            blurRadius: 20,
+            offset: const Offset(0, 4),
             spreadRadius: 0,
           )
         ],
@@ -556,9 +556,6 @@ class MainScreen extends GetView<MainController> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).padding.top + 80.sp,
-                          ),
                           Obx(
                             () => AnimatedSwitcher(
                               duration: const Duration(milliseconds: 100),

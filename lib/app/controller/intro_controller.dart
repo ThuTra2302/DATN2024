@@ -11,8 +11,6 @@ class IntroController extends GetxController {
 
   @override
   void onInit() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setBool('is_first_open_app', false);
 
     super.onInit();
   }
@@ -48,6 +46,9 @@ class IntroController extends GetxController {
       carouselController.nextPage();
       currentIndex.value += 1;
     } else if (currentIndex.value == 3) {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setBool('is_first_open_app', false);
+
       await Get.off(() => const HandlePermissionScreen());
     }
   }
@@ -58,6 +59,8 @@ class IntroController extends GetxController {
   }
 
   void onPressSkip() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('is_first_open_app', false);
     await Get.off(() => const HandlePermissionScreen());
   }
 }

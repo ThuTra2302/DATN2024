@@ -59,7 +59,7 @@ class AppController extends SuperController {
   void onReady() async {
     super.onReady();
 
-    _onInitIAPListener();
+    // _onInitIAPListener();
 
     currentLanguageCode.value =
         currentLocale.toLanguageTag() == 'vi-VN' ? 'Viet' : 'Eng';
@@ -202,15 +202,15 @@ class AppController extends SuperController {
           rxPurchaseStatus.value = purchaseDetails.status;
           isPremium.value = true;
           switch (purchaseDetails.productID) {
-            case 'com.datn.tra.travelweather.year':
+            case 'com.roadtrippers.weather.activity.notes.year':
               isPremium.value = true;
               break;
 
-            case 'com.datn.tra.travelweather.month':
+            case 'com.roadtrippers.weather.activity.notes.month':
               isPremium.value = true;
               break;
 
-            case 'com.datn.tra.travelweather.week':
+            case 'com.roadtrippers.weather.activity.notes.week':
               isPremium.value = true;
               break;
           }

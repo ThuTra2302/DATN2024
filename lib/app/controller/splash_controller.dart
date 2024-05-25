@@ -31,25 +31,23 @@ class SplashController extends GetxController with ConnectionMixin {
   void onReady() async {
     super.onReady();
 
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen((_updateConnectionStatus));
+
     FlutterNativeSplash.remove();
     // get version app
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     version.value = packageInfo.version;
 
     final prefs = await SharedPreferences.getInstance();
+    String? language = prefs.getString('language');
     _isFirstTimeOpenApp = prefs.getBool('is_first_open_app') ?? true;
     // _isFirstTimeOpenApp =  true;
 
-    Get.find<AppController>().updateLocale(AppConstant.availableLocales[0]);
+    Get.find<AppController>().updateLocale(AppConstant.availableLocales[int.tryParse(language ?? '') ?? 1]);
     String stringUnitTypeTemp = prefs.getString('unitTypeTemp') ?? '';
     UnitTypeTemp unitTypeTemp = Get.find<AppController>()
         .listUnitTypeTemp
-        .firstWhere((element) => element.name == stringUnitTypeTemp,
-            orElse: () => Get.find<AppController>().listUnitTypeTemp.first);
-    Get.find<AppController>()
-        .updateUnitTypeTemp(unitTypeTemp, needUpdatePrefs: false);
+        .firstWhere((element) => element.name == stringUnitTypeTemp, orElse: () => Get.find<AppController>().listUnitTypeTemp.first);
+    Get.find<AppController>().updateUnitTypeTemp(unitTypeTemp, needUpdatePrefs: false);
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -59,6 +57,7 @@ class SplashController extends GetxController with ConnectionMixin {
     );
 
     await initConnectivity();
+    _connectivitySubscription = _connectivity.onConnectivityChanged.listen((_updateConnectionStatus));
   }
 
   @override
@@ -69,24 +68,19 @@ class SplashController extends GetxController with ConnectionMixin {
 
   Future<void> nextScreen() async {
     if (_isFirstTimeOpenApp) {
-      Get.offAndToNamed(AppRoute.loadingAdsScreen, arguments: {
-        'first': _isFirstTimeOpenApp,
-      });
+      Get.offAndToNamed(AppRoute.introScreen);
       return;
     } else {
       LocationPermission permission = await Geolocator.checkPermission();
       if (Get.find<AppController>().isPremium.value) {
-        if (permission != LocationPermission.always &&
-            permission != LocationPermission.whileInUse) {
+        if (permission != LocationPermission.always && permission != LocationPermission.whileInUse) {
           Get.off(() => const HandlePermissionScreen());
           return;
         }
         Get.offNamed(AppRoute.mainScreen);
         return;
       } else {
-        Get.toNamed(AppRoute.loadingAdsScreen, arguments: {
-          'first': _isFirstTimeOpenApp,
-        });
+        Get.offAndToNamed(AppRoute.introScreen);
         return;
       }
     }
@@ -94,21 +88,17 @@ class SplashController extends GetxController with ConnectionMixin {
 
   tz.TZDateTime _nextInstanceOfHourInDay(int day, int hour) {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, day, hour);
-    return scheduledDate
-        .subtract(const Duration(hours: 7)); // chuyển về múi giờ Việt Nam
+    tz.TZDateTime scheduledDate = tz.TZDateTime(tz.local, now.year, now.month, day, hour);
+    return scheduledDate.subtract(const Duration(hours: 7)); // chuyển về múi giờ Việt Nam
   }
 
   _initNotificationAlarm8() {
     tz.initializeTimeZones();
     for (int i = 1; i < 32; i++) {
       final random = Random();
-      var content = AppConstant.listNotificationContent[
-          random.nextInt(AppConstant.listNotificationContent.length)];
+      var content = AppConstant.listNotificationContent[random.nextInt(AppConstant.listNotificationContent.length)];
 
-      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-          FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
       flutterLocalNotificationsPlugin.zonedSchedule(
           256 + i,
@@ -125,8 +115,7 @@ class SplashController extends GetxController with ConnectionMixin {
           ),
           androidAllowWhileIdle: true,
           matchDateTimeComponents: DateTimeComponents.dayOfMonthAndTime,
-          uiLocalNotificationDateInterpretation:
-              UILocalNotificationDateInterpretation.absoluteTime);
+          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
     }
   }
 
@@ -134,10 +123,8 @@ class SplashController extends GetxController with ConnectionMixin {
     tz.initializeTimeZones();
     for (int i = 1; i < 32; i++) {
       final random = Random();
-      var content = AppConstant.listNotificationContent[
-          random.nextInt(AppConstant.listNotificationContent.length)];
-      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-          FlutterLocalNotificationsPlugin();
+      var content = AppConstant.listNotificationContent[random.nextInt(AppConstant.listNotificationContent.length)];
+      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
       flutterLocalNotificationsPlugin.zonedSchedule(
           356 + i,
           'Travel Weather',
@@ -153,8 +140,7 @@ class SplashController extends GetxController with ConnectionMixin {
           ),
           androidAllowWhileIdle: true,
           matchDateTimeComponents: DateTimeComponents.dayOfMonthAndTime,
-          uiLocalNotificationDateInterpretation:
-              UILocalNotificationDateInterpretation.absoluteTime);
+          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
     }
   }
 
@@ -162,10 +148,8 @@ class SplashController extends GetxController with ConnectionMixin {
     tz.initializeTimeZones();
     for (int i = 1; i < 32; i++) {
       final random = Random();
-      var content = AppConstant.listNotificationContent[
-          random.nextInt(AppConstant.listNotificationContent.length)];
-      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-          FlutterLocalNotificationsPlugin();
+      var content = AppConstant.listNotificationContent[random.nextInt(AppConstant.listNotificationContent.length)];
+      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
       flutterLocalNotificationsPlugin.zonedSchedule(
           456 + i,
           'Travel Weather',
@@ -181,8 +165,7 @@ class SplashController extends GetxController with ConnectionMixin {
           ),
           androidAllowWhileIdle: true,
           matchDateTimeComponents: DateTimeComponents.dayOfMonthAndTime,
-          uiLocalNotificationDateInterpretation:
-              UILocalNotificationDateInterpretation.absoluteTime);
+          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
     }
   }
 
@@ -215,8 +198,7 @@ class SplashController extends GetxController with ConnectionMixin {
       showNotConnectDialog(context);
     }
 
-    if (result == ConnectivityResult.wifi ||
-        result == ConnectivityResult.mobile) {
+    if (result == ConnectivityResult.wifi || result == ConnectivityResult.mobile) {
       await nextScreen();
     }
   }

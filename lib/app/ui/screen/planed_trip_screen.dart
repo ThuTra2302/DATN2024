@@ -86,10 +86,10 @@ class PlanedTripScreen extends GetView<PlanedTripController> {
                             children:  <Widget>[
                               SvgPicture.asset(
                                 AppImage.icNoteFavorite,
-                                color: Color(0xFFFF2D55),
+                                color: const Color(0xFFFF2D55),
                               ),
-                              SizedBox(width: 8),
-                              Text('Favorites'),
+                              const SizedBox(width: 8),
+                              const Text('Favorites'),
                             ],
                           ),
                         ),

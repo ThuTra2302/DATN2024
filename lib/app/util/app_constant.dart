@@ -3,10 +3,13 @@ import 'dart:ui';
 import '../res/image/app_image.dart';
 
 class AppConstant {
-  static final availableLocales = [const Locale('en', 'US')];
+  static final availableLocales = [
+    const Locale('vi', 'VN'),
+    const Locale('en', 'US')
+  ];
 
   // static const keyGoogleMap = 'AIzaSyDUXrcW6YBqQGIYnX4VZEzApYcd-75-SdM';
-  static const keyGoogleMap = ' ';
+  static const keyGoogleMap = 'AIzaSyC8CEwmuFyCgRbZEJjNNaLJ0CyTPhZN9wk';
   static const keyWeather = '9EQx3iNxQF8IRnKoxmv3398bLcbxQLQL3QwrEw19';
   static const averageV = 64; // kmh
 
@@ -24,16 +27,76 @@ class AppConstant {
   ];
 
   static const List listWMOCode = [
-    {'code': 0, 'desEN': 'Clear sky', 'desVN': 'Bầu trời quang đãng', 'image': AppImage.weather_00, 'image2': AppImage.weather_00_n},
-    {'code': 1, 'desEN': 'Mainly clear', 'desVN': 'Trời quang', 'image': AppImage.weather_01, 'image2': AppImage.weather_01_n},
-    {'code': 2, 'desEN': 'Partly cloudy', 'desVN': 'Mây mù', 'image': AppImage.weather_02, 'image2': AppImage.weather_02_n},
-    {'code': 3, 'desEN': 'Overcast', 'desVN': 'U ám', 'image': AppImage.weather_03, 'image2': AppImage.weather_02_n},
-    {'code': 45, 'desEN': 'Fog', 'desVN': 'Sương mù', 'image': AppImage.weather_45, 'image2': AppImage.weather_02_n},
-    {'code': 48, 'desEN': 'Depositing rime fog', 'desVN': 'Đọng sương', 'image': AppImage.weather_48, 'image2': AppImage.weather_48_n},
-    {'code': 51, 'desEN': 'Drizzle light', 'desVN': 'Mưa phùn nhẹ', 'image': AppImage.weather_51, 'image2': AppImage.weather_51_n},
-    {'code': 53, 'desEN': 'Drizzle moderate', 'desVN': 'Mưa phùn vừa', 'image': AppImage.weather_53, 'image2': AppImage.weather_53_n},
-    {'code': 55, 'desEN': 'Drizzle dense intensity', 'desVN': 'Mưa phùn sai hạt', 'image': AppImage.weather_55, 'image2': AppImage.weather_55_n},
-    {'code': 56, 'desEN': 'Freezing Drizzle light', 'desVN': 'Mưa phùn lạnh nhẹ', 'image': AppImage.weather_56, 'image2': AppImage.weather_56_n},
+    {
+      'code': 0,
+      'desEN': 'Clear sky',
+      'desVN': 'Bầu trời quang đãng',
+      'image': AppImage.weather_00,
+      'image2': AppImage.weather_00_n
+    },
+    {
+      'code': 1,
+      'desEN': 'Mainly clear',
+      'desVN': 'Trời quang',
+      'image': AppImage.weather_01,
+      'image2': AppImage.weather_01_n
+    },
+    {
+      'code': 2,
+      'desEN': 'Partly cloudy',
+      'desVN': 'Mây mù',
+      'image': AppImage.weather_02,
+      'image2': AppImage.weather_02_n
+    },
+    {
+      'code': 3,
+      'desEN': 'Overcast',
+      'desVN': 'U ám',
+      'image': AppImage.weather_03,
+      'image2': AppImage.weather_02_n
+    },
+    {
+      'code': 45,
+      'desEN': 'Fog',
+      'desVN': 'Sương mù',
+      'image': AppImage.weather_45,
+      'image2': AppImage.weather_02_n
+    },
+    {
+      'code': 48,
+      'desEN': 'Depositing rime fog',
+      'desVN': 'Đọng sương',
+      'image': AppImage.weather_48,
+      'image2': AppImage.weather_48_n
+    },
+    {
+      'code': 51,
+      'desEN': 'Drizzle light',
+      'desVN': 'Mưa phùn nhẹ',
+      'image': AppImage.weather_51,
+      'image2': AppImage.weather_51_n
+    },
+    {
+      'code': 53,
+      'desEN': 'Drizzle moderate',
+      'desVN': 'Mưa phùn vừa',
+      'image': AppImage.weather_53,
+      'image2': AppImage.weather_53_n
+    },
+    {
+      'code': 55,
+      'desEN': 'Drizzle dense intensity',
+      'desVN': 'Mưa phùn sai hạt',
+      'image': AppImage.weather_55,
+      'image2': AppImage.weather_55_n
+    },
+    {
+      'code': 56,
+      'desEN': 'Freezing Drizzle light',
+      'desVN': 'Mưa phùn lạnh nhẹ',
+      'image': AppImage.weather_56,
+      'image2': AppImage.weather_56_n
+    },
     {
       'code': 57,
       'desEN': 'Freezing Drizzle dense intensity',
@@ -41,10 +104,34 @@ class AppConstant {
       'image': AppImage.weather_57,
       'image2': AppImage.weather_57_n
     },
-    {'code': 61, 'desEN': 'Rain slight', 'desVN': 'Mưa nhẹ', 'image': AppImage.weather_61, 'image2': AppImage.weather_61_n},
-    {'code': 63, 'desEN': 'Rain moderate', 'desVN': 'Mưa vừa', 'image': AppImage.weather_63, 'image2': AppImage.weather_63_n},
-    {'code': 65, 'desEN': 'Rain heavy intensity', 'desVN': 'Mưa to', 'image': AppImage.weather_65, 'image2': AppImage.weather_65_n},
-    {'code': 66, 'desEN': 'Freezing Rain light', 'desVN': 'Mưa lạnh nhẹ', 'image': AppImage.weather_66, 'image2': AppImage.weather_66_n},
+    {
+      'code': 61,
+      'desEN': 'Rain slight',
+      'desVN': 'Mưa nhẹ',
+      'image': AppImage.weather_61,
+      'image2': AppImage.weather_61_n
+    },
+    {
+      'code': 63,
+      'desEN': 'Rain moderate',
+      'desVN': 'Mưa vừa',
+      'image': AppImage.weather_63,
+      'image2': AppImage.weather_63_n
+    },
+    {
+      'code': 65,
+      'desEN': 'Rain heavy intensity',
+      'desVN': 'Mưa to',
+      'image': AppImage.weather_65,
+      'image2': AppImage.weather_65_n
+    },
+    {
+      'code': 66,
+      'desEN': 'Freezing Rain light',
+      'desVN': 'Mưa lạnh nhẹ',
+      'image': AppImage.weather_66,
+      'image2': AppImage.weather_66_n
+    },
     {
       'code': 67,
       'desEN': 'Freezing Rain: heavy intensity',
@@ -52,17 +139,83 @@ class AppConstant {
       'image': AppImage.weather_67,
       'image2': AppImage.weather_67_n
     },
-    {'code': 71, 'desEN': 'Snow fall slight', 'desVN': 'Tuyết rơi nhẹ', 'image': AppImage.weather_71, 'image2': AppImage.weather_71_n},
-    {'code': 73, 'desEN': 'Snow fall moderate', 'desVN': 'Tuyết rơi trung bình', 'image': AppImage.weather_73, 'image2': AppImage.weather_73_n},
-    {'code': 75, 'desEN': 'Snow fall heavy intensity', 'desVN': 'Tuyết rơi nặng hạt', 'image': AppImage.weather_75, 'image2': AppImage.weather_75_n},
-    {'code': 77, 'desEN': 'Snow grains', 'desVN': 'Tuyết rơi lớn', 'image': AppImage.weather_77, 'image2': AppImage.weather_77_n},
-    {'code': 80, 'desEN': 'Rain showers slight', 'desVN': 'Mưa rào nhẹ', 'image': AppImage.weather_80, 'image2': AppImage.weather_80_n},
-    {'code': 81, 'desEN': 'Rain showers moderate', 'desVN': 'Mưa rào trung bình', 'image': AppImage.weather_81, 'image2': AppImage.weather_81_n},
-    {'code': 82, 'desEN': 'Rain showers violent', 'desVN': 'Mưa rào nặng hạt', 'image': AppImage.weather_82, 'image2': AppImage.weather_82_n},
-    {'code': 85, 'desEN': 'Snow showers slight', 'desVN': 'Mưa tuyết nhẹ', 'image': AppImage.weather_85, 'image2': AppImage.weather_85_n},
-    {'code': 86, 'desEN': 'Snow showers heavy', 'desVN': 'Mưa tuyết nặng hạt', 'image': AppImage.weather_86, 'image2': AppImage.weather_86_n},
-    {'code': 95, 'desEN': 'Thunderstorm', 'desVN': 'Dông bão', 'image': AppImage.weather_95, 'image2': AppImage.weather_95_n},
-    {'code': 96, 'desEN': 'Thunderstorm with slight', 'desVN': 'Giông bão nhẹ', 'image': AppImage.weather_96, 'image2': AppImage.weather_96_n},
+    {
+      'code': 71,
+      'desEN': 'Snow fall slight',
+      'desVN': 'Tuyết rơi nhẹ',
+      'image': AppImage.weather_71,
+      'image2': AppImage.weather_71_n
+    },
+    {
+      'code': 73,
+      'desEN': 'Snow fall moderate',
+      'desVN': 'Tuyết rơi trung bình',
+      'image': AppImage.weather_73,
+      'image2': AppImage.weather_73_n
+    },
+    {
+      'code': 75,
+      'desEN': 'Snow fall heavy intensity',
+      'desVN': 'Tuyết rơi nặng hạt',
+      'image': AppImage.weather_75,
+      'image2': AppImage.weather_75_n
+    },
+    {
+      'code': 77,
+      'desEN': 'Snow grains',
+      'desVN': 'Tuyết rơi lớn',
+      'image': AppImage.weather_77,
+      'image2': AppImage.weather_77_n
+    },
+    {
+      'code': 80,
+      'desEN': 'Rain showers slight',
+      'desVN': 'Mưa rào nhẹ',
+      'image': AppImage.weather_80,
+      'image2': AppImage.weather_80_n
+    },
+    {
+      'code': 81,
+      'desEN': 'Rain showers moderate',
+      'desVN': 'Mưa rào trung bình',
+      'image': AppImage.weather_81,
+      'image2': AppImage.weather_81_n
+    },
+    {
+      'code': 82,
+      'desEN': 'Rain showers violent',
+      'desVN': 'Mưa rào nặng hạt',
+      'image': AppImage.weather_82,
+      'image2': AppImage.weather_82_n
+    },
+    {
+      'code': 85,
+      'desEN': 'Snow showers slight',
+      'desVN': 'Mưa tuyết nhẹ',
+      'image': AppImage.weather_85,
+      'image2': AppImage.weather_85_n
+    },
+    {
+      'code': 86,
+      'desEN': 'Snow showers heavy',
+      'desVN': 'Mưa tuyết nặng hạt',
+      'image': AppImage.weather_86,
+      'image2': AppImage.weather_86_n
+    },
+    {
+      'code': 95,
+      'desEN': 'Thunderstorm',
+      'desVN': 'Dông bão',
+      'image': AppImage.weather_95,
+      'image2': AppImage.weather_95_n
+    },
+    {
+      'code': 96,
+      'desEN': 'Thunderstorm with slight',
+      'desVN': 'Giông bão nhẹ',
+      'image': AppImage.weather_96,
+      'image2': AppImage.weather_96_n
+    },
     {
       'code': 99,
       'desEN': 'Thunderstorm with heavy hail',
